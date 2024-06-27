@@ -18,4 +18,5 @@ local kmp = vim.keymap
 kmp.set("i", "jk", "<Esc>")
 kmp.set("n", "<Tab>", ">>")
 kmp.set("n", "<S-Tab>", "<<")
-
+-- kmp.set("i", "<C-]>", "<C-o>^<Tab>")
+-- kmp.set("i", "<C-[>", "<C-o>^<C-d>")
