@@ -30,6 +30,11 @@ return {
             local cmp = require("cmp")
             local cmp_action = require("lsp-zero").cmp_action()
 
+            local cmp_config = cmp.get_config()
+            table.insert(cmp_config.sources, {
+                name = "copilot",
+                group_index = 1,
+            })
             cmp.setup({
                 mapping = cmp.mapping.preset.insert({
                     ["<Tab>"] = cmp_action.luasnip_supertab(),
@@ -39,8 +44,12 @@ return {
                     expand = function(args)
                         require("luasnip").lsp_expand(args.body)
                     end,
-                }
+                },
+                -- sources = {
+                --     { name = "copilot", group_index = 2},
+                -- }
             })
+
         end,
     },
     {"L3MON4D3/LuaSnip"},
