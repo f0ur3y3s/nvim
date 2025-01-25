@@ -14,7 +14,7 @@ return {
                         },
 
                         i = {
-                            ["<leader>ff"] = actions.close,
+                            ["<leader>fc"] = actions.close,
                         },
                     },
                 },
@@ -32,7 +32,16 @@ return {
             kmp.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
             kmp.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
             kmp.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
-            kmp.set("n", "<leader>/", builtin.current_buffer_fuzzy_find, { desc = "Telescope current buffer fuzzy find" })
+            -- kmp.set("n", "<leader>fp", builtin.git_commits , { desc = "Telescope preview git diff" })
+            kmp.set(
+                "n",
+                "<leader>/",
+                builtin.current_buffer_fuzzy_find,
+                { desc = "Telescope current buffer fuzzy find" }
+            )
+
+            -- local previewers = require("telescope.previewers")
+            -- kmp.set("n", "<leader>fp", previewers.git_commit_diff_to_parent)
 
             require("telescope").load_extension("ui-select")
         end,

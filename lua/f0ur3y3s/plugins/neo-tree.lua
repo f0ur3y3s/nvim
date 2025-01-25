@@ -7,7 +7,8 @@ return {
         "MunifTanjim/nui.nvim",
     },
     config = function()
-        vim.keymap.set("n", "<C-n>", ":Neotree toggle<CR>", {})
-        --vim.keymap.set("n", "<leader>bf", ":Neotree buffers reveal float<CR>", {})
+        local kmp = vim.keymap
+        kmp.set("n", "<C-n>", ":Neotree toggle<CR>", {})
+        kmp.set("n", "<leader>gp", "<cmd>Neotree float git_status<CR> ", {})
     end,
 }
