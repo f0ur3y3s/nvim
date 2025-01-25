@@ -1,0 +1,25 @@
+vim.cmd("set number")
+vim.cmd("set relativenumber")
+vim.cmd("set hidden")
+vim.cmd("set nobackup")
+vim.cmd("set noswapfile")
+vim.cmd("set nowritebackup")
+vim.cmd("set expandtab")
+vim.cmd("set tabstop=5")
+vim.cmd("set shiftwidth=4")
+vim.cmd("set clipboard=unnamedplus")
+vim.cmd("set showtabline=2")
+
+local kmp = vim.keymap
+
+kmp.set("i", "jk", "<Esc>")
+kmp.set("n", "<Tab>", ">>")
+kmp.set("n", "<S-Tab>", "<<")
+kmp.set("n", "<A-Up>", ":resize -1<CR>", { silent = true })
+kmp.set("n", "<A-Down>", ":resize +1<CR>", { silent = true })
+kmp.set("n", "<A-left>", ":vertical resize -1<CR>", { silent = true })
+kmp.set("n", "<A-right>", ":vertical resize +1<CR>", { silent = true })
+kmp.set("t", "jk", "<c-\\><c-n>")
+kmp.set("n", "<A-S-h>", ":bprev<CR>", { silent = true})
+kmp.set("n", "<A-S-l>", ":bnext<CR>", { silent = true})
+
