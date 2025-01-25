@@ -12,25 +12,26 @@ return {
                 },
                 sections = {
                     lualine_a = { "mode" },
-                    lualine_b = { "branch", "diff", "diagnostics", "filename" },
-                    lualine_c = { "%=", { "ctime", separator = { left = "|" } } },
+                    lualine_b = { "branch", "diff", "diagnostics" },
+                    lualine_c = { "%=", { "filename", path = 1, separator = { left = "|" } } },
                     lualine_x = {
-                        "cdate",
+                        {  "ctime" },
+                        {"cdate"},
                         {
                             "copilot",
                             show_colors = false,
                             show_loading = true,
---                            symbols = {
---                                status = {
---                                    icons = {
---                                        enabled = "✅",
---                                        sleep = "💤",
---                                        error = "❌",
---                                        disabled = "👇",
---                                        unknown = "❔",
---                                    },
---                                },
---                            },
+                            --                            symbols = {
+                            --                                status = {
+                            --                                    icons = {
+                            --                                        enabled = "✅",
+                            --                                        sleep = "💤",
+                            --                                        error = "❌",
+                            --                                        disabled = "👇",
+                            --                                        unknown = "❔",
+                            --                                    },
+                            --                                },
+                            --                            },
                         },
                     },
                     lualine_y = { "progress" },
@@ -38,9 +39,9 @@ return {
                 },
                 inactive_sections = {
                     lualine_a = {},
-                    lualine_b = { "filename" },
+                    lualine_b = {},
                     lualine_c = {},
-                    lualine_x = { "location" },
+                    lualine_x = {},
                     lualine_y = {},
                     lualine_z = {},
                 },

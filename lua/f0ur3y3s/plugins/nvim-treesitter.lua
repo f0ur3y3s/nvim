@@ -27,6 +27,7 @@ return {
                 "cpp",
                 "python",
                 "markdown",
+                "vimdoc",
             },
             rainbow = {
                 enable = true,
