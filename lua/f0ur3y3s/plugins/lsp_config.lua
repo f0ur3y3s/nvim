@@ -31,15 +31,14 @@ return {
             local lspconfig = require("lspconfig")
 
             lspconfig.lua_ls.setup({
-                capabilities = capabilities
+                capabilities = capabilities,
             })
             lspconfig.clangd.setup({
-                capabilities = capabilities
+                capabilities = capabilities,
             })
             lspconfig.marksman.setup({
-                capabilities = capabilities
+                capabilities = capabilities,
             })
-
 
             vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
             vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})

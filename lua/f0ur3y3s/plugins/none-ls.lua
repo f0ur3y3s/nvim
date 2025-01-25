@@ -16,7 +16,7 @@ return {
                 null_ls.builtins.code_actions.gitsigns,
                 null_ls.builtins.diagnostics.cppcheck,
                 null_ls.builtins.formatting.clang_format.with({
-                    extra_args = { string.format("-style=file:%s", vim.fn.expand("~/.clang-format")) },
+                    extra_args = { string.format("-style=file:%s", vim.fn.expand("$HOME/.clang-format")) },
                 }),
                 null_ls.builtins.diagnostics.pylint.with({
                     extra_args = { string.format("--rcfile=%s", vim.fn.expand("~/.pylintrc")) },
