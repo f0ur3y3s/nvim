@@ -15,6 +15,7 @@ return {
 
                         i = {
                             ["<leader>fc"] = actions.close,
+                            ["<leader>db"] = actions.delete_buffer,
                         },
                     },
                 },
@@ -27,7 +28,7 @@ return {
 
             local builtin = require("telescope.builtin")
             local kmp = vim.keymap
-            --        kmp.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
+
             kmp.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
             kmp.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
             kmp.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
