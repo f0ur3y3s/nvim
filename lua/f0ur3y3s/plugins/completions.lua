@@ -89,6 +89,9 @@ return {
                 }, {
                     { name = "buffer" },
                 }),
+                experimental = {
+                    ghost_text = true,
+                },
             })
         end,
     },

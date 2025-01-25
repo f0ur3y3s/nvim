@@ -40,10 +40,12 @@ return {
                 capabilities = capabilities,
             })
 
-            vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-            vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
-            vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
-            vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
+            local kmp = vim.keymap
+
+            kmp.set("n", "K", vim.lsp.buf.hover, {})
+            kmp.set("n", "<leader>gd", vim.lsp.buf.definition, {})
+            kmp.set("n", "<leader>gr", vim.lsp.buf.references, {})
+            kmp.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
         end,
     },
 }
