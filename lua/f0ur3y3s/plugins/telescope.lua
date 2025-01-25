@@ -31,6 +31,7 @@ return {
             kmp.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
             kmp.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
             kmp.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
+            kmp.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
             kmp.set("n", "<leader>/", builtin.current_buffer_fuzzy_find, { desc = "Telescope current buffer fuzzy find" })
 
             require("telescope").load_extension("ui-select")

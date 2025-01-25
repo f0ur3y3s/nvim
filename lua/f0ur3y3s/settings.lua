@@ -31,3 +31,4 @@ kmp.set("n", "<c-k>", "<c-w><c-k>")
 kmp.set("n", "<c-l>", "<c-w><c-l>")
 kmp.set("t", "jk", "<c-\\><c-n>")
 
+kmp.set("n", "<Space>ex", "<cmd>.lua<CR>", { silent = true })
