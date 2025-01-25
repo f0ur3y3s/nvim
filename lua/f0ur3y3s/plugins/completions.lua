@@ -1,5 +1,22 @@
 return {
-    {},
+    {
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        event = "InsertEnter",
+        config = function()
+            require("copilot").setup({
+                suggestion = { enabled = false },
+                panel = { enabled = false },
+            })
+        end,
+    },
+    {
+        "zbirenbaum/copilot-cmp",
+        after = { "copilot.lua" },
+        config = function()
+            require("copilot_cmp").setup()
+        end,
+    },
     {
         "hrsh7th/cmp-nvim-lsp",
     },
@@ -31,33 +48,19 @@ return {
                     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-f>"] = cmp.mapping.scroll_docs(4),
                     ["<C-Space>"] = cmp.mapping.complete(),
-                    -- ["<Tab>"] = function(fallback)
-                    --     if not cmp.select_next_item() then
-                    --         if vim.bo.buftype ~= "prompt" and has_words_before() then
-                    --             cmp.complete()
-                    --         else
-                    --             fallback()
-                    --         end
-                    --     end
-                    -- end,
-                    -- ["<S-Tab"] = function(fallback)
-                    --     if not cmp.select_prev_item() then
-                    --         if vim.bo.buftype ~= "prompt" and has_words_before() then
-                    --             cmp.complete()
-                    --         else
-                    --             fallback()
-                    --         end
-                    --     end
-                    -- end,
                     ["<C-e>"] = cmp.mapping.abort(),
-                    --["<CR>"] = cmp.mapping.confirm({ select = true }),
                     ["<CR>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
-                            if luasnip.expandable() then
+                            local entry = cmp.get_selected_entry()
+                            if entry and entry.source.name == "copilot" then
+                                cmp.confirm({
+                                    select = false,
+                                })
+                            elseif entry and luasnip.expandable() then
                                 luasnip.expand()
                             else
                                 cmp.confirm({
-                                    select = true,
+                                    select = false,
                                 })
                             end
                         else
@@ -85,6 +88,7 @@ return {
                     end, { "i", "s" }),
                 }),
                 sources = cmp.config.sources({
+                    { name = "copilot" },
                     { name = "nvim_lsp" },
                     { name = "emoji" },
                     { name = "luasnip" }, -- For luasnip users.

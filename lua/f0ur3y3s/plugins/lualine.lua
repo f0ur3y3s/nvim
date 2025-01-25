@@ -1,5 +1,6 @@
 return {
     { "archibate/lualine-time" },
+    { "AndreM222/copilot-lualine" },
     {
         "nvim-lualine/lualine.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons", "archibate/lualine-time" },
@@ -12,7 +13,10 @@ return {
                     lualine_a = { "mode" },
                     lualine_b = { "branch", "diff", "diagnostics", "filename" },
                     lualine_c = { "%=", { "ctime", separator = { left = "|" } } },
-                    lualine_x = { "cdate" },
+                    lualine_x = {
+                        "cdate",
+                        { "copilot", show_colors = false, show_loading = true },
+                    },
                     lualine_y = { "progress" },
                     lualine_z = { "location" },
                 },
