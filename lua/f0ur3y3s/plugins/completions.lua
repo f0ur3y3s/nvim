@@ -31,8 +31,9 @@ return {
     {
         "hrsh7th/nvim-cmp",
         config = function()
-            local cmp = require("cmp")
             require("luasnip.loaders.from_vscode").lazy_load()
+            local luasnip = require("luasnip")
+            local cmp = require("cmp")
 
             cmp.setup({
                 snippet = {
@@ -49,24 +50,17 @@ return {
                     ["<C-f>"] = cmp.mapping.scroll_docs(4),
                     ["<C-Space>"] = cmp.mapping.complete(),
                     ["<C-e>"] = cmp.mapping.abort(),
-                    ["<CR>"] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            local entry = cmp.get_selected_entry()
-                            if entry and entry.source.name == "copilot" then
-                                cmp.confirm({
-                                    select = false,
-                                })
-                            elseif entry and luasnip.expandable() then
-                                luasnip.expand()
+                    ["<CR>"] = cmp.mapping({
+                        i = function(fallback)
+                            if cmp.visible() and cmp.get_active_entry() then
+                                cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
                             else
-                                cmp.confirm({
-                                    select = false,
-                                })
+                                fallback()
                             end
-                        else
-                            fallback()
-                        end
-                    end),
+                        end,
+                        s = cmp.mapping.confirm({ select = true }),
+                        c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+                    }),
                     ["<Tab>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_next_item()
@@ -88,10 +82,10 @@ return {
                     end, { "i", "s" }),
                 }),
                 sources = cmp.config.sources({
-                    { name = "copilot" },
+                    { name = "copilot", group_index = 2},
                     { name = "nvim_lsp" },
                     { name = "emoji" },
-                    { name = "luasnip" }, -- For luasnip users.
+                    { name = "luasnip" },
                 }, {
                     { name = "buffer" },
                 }),

@@ -8,6 +8,7 @@ return {
             require("lualine").setup({
                 options = {
                     theme = "auto",
+                    icons_enabled = true,
                 },
                 sections = {
                     lualine_a = { "mode" },
@@ -15,7 +16,22 @@ return {
                     lualine_c = { "%=", { "ctime", separator = { left = "|" } } },
                     lualine_x = {
                         "cdate",
-                        { "copilot", show_colors = false, show_loading = true },
+                        {
+                            "copilot",
+                            show_colors = false,
+                            show_loading = true,
+--                            symbols = {
+--                                status = {
+--                                    icons = {
+--                                        enabled = "✅",
+--                                        sleep = "💤",
+--                                        error = "❌",
+--                                        disabled = "👇",
+--                                        unknown = "❔",
+--                                    },
+--                                },
+--                            },
+                        },
                     },
                     lualine_y = { "progress" },
                     lualine_z = { "location" },
