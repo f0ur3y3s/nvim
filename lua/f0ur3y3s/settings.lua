@@ -30,10 +30,10 @@ kmp.set("n", "<M-S-h>", ":bprev<CR>", { silent = true })
 kmp.set("n", "<M-S-l>", ":bnext<CR>", { silent = true })
 
 -- Window navigation
-kmp.set("n", "<c-h>", "<c-w><c-h>")
-kmp.set("n", "<c-j>", "<c-w><c-j>")
-kmp.set("n", "<c-k>", "<c-w><c-k>")
-kmp.set("n", "<c-l>", "<c-w><c-l>")
+-- kmp.set("n", "<c-h>", "<c-w><c-h>")
+-- kmp.set("n", "<c-j>", "<c-w><c-j>")
+-- kmp.set("n", "<c-k>", "<c-w><c-k>")
+-- kmp.set("n", "<c-l>", "<c-w><c-l>")
 
 -- Terminal functions
 kmp.set("t", "jk", "<c-\\><c-n>")

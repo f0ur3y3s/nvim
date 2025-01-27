@@ -28,4 +28,5 @@ return {
 
         alpha.setup(dashboard.opts)
     end,
+    enabled = false,
 }

@@ -8,6 +8,11 @@ return {
             disable_nvimtree_bg = true,
             vim.cmd([[colorscheme vscode]]),
         })
+
+        local vapi = vim.api
+        vapi.nvim_set_hl(0, "Normal", { bg = "none" })
+        vapi.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+
         -- "vague2k/vague.nvim",
         -- config = function()
         --     require("vague").setup({
