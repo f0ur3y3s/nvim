@@ -1,3 +1,12 @@
+local servers = {
+    "clangd",
+    "cmake",
+    "lua_ls",
+    "marksman",
+    "pylsp",
+    "vimls",
+}
+
 return {
     {
         "williamboman/mason.nvim",
@@ -13,15 +22,10 @@ return {
             auto_install = true,
         },
         config = function()
-            require("mason-lspconfig").setup({})
+            require("mason-lspconfig").setup({
+                ensure_installed = servers,
+            })
         end,
-        -- config = function()
-        --     require("mason-lspconfig").setup({
-        --         ensure_installed = {
-        --             "lua_ls",
-        --         },
-        --     })
-        -- end,
     },
     {
         "neovim/nvim-lspconfig",
@@ -30,15 +34,11 @@ return {
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local lspconfig = require("lspconfig")
 
-            lspconfig.lua_ls.setup({
-                capabilities = capabilities,
-            })
-            lspconfig.clangd.setup({
-                capabilities = capabilities,
-            })
-            lspconfig.marksman.setup({
-                capabilities = capabilities,
-            })
+            for _, server in ipairs(servers) do
+                lspconfig[server].setup({
+                    capabilities = capabilities,
+                })
+            end
 
             local kmp = vim.keymap
 

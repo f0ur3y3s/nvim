@@ -10,6 +10,8 @@ vim.cmd("set shiftwidth=4")
 vim.cmd("set clipboard=unnamedplus")
 -- vim.cmd("set showtabline=2")
 
+vim.cmd("hi Normal guibg=None ctermbg=None")
+
 local kmp = vim.keymap
 
 -- Basics
@@ -52,3 +54,5 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- Quickfix
 kmp.set("n", "<M-j>", "<cmd>cnext<CR>", {silent = true})
 kmp.set("n", "<M-k>", "<cmd>cprev<CR>", {silent = true})
+
+local autocmd = vim.api.nvim_create_autocmd

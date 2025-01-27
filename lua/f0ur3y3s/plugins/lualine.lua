@@ -15,8 +15,8 @@ return {
                     lualine_b = { "branch", "diff", "diagnostics" },
                     lualine_c = { "%=", { "filename", path = 1, separator = { left = "|" } } },
                     lualine_x = {
-                        {  "ctime" },
-                        {"cdate"},
+                        { "ctime" },
+                        { "cdate" },
                         {
                             "copilot",
                             show_colors = false,
