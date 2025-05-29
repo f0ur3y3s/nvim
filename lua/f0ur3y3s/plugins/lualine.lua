@@ -17,22 +17,6 @@ return {
                     lualine_x = {
                         { "ctime" },
                         { "cdate" },
-                        {
-                            "copilot",
-                            show_colors = false,
-                            show_loading = true,
-                            --                            symbols = {
-                            --                                status = {
-                            --                                    icons = {
-                            --                                        enabled = "✅",
-                            --                                        sleep = "💤",
-                            --                                        error = "❌",
-                            --                                        disabled = "👇",
-                            --                                        unknown = "❔",
-                            --                                    },
-                            --                                },
-                            --                            },
-                        },
                     },
                     lualine_y = { "progress" },
                     lualine_z = { "location" },

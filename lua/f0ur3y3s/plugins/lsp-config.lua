@@ -4,6 +4,7 @@ local servers = {
     "lua_ls",
     "marksman",
     "pylsp",
+    "ruff",
     "vimls",
 }
 
