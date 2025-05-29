@@ -1,29 +1,45 @@
 return {
-    "nvimtools/none-ls.nvim",
-    config = function()
-        local null_ls = require("null-ls")
-        null_ls.setup({
-            sources = {
-                null_ls.builtins.formatting.stylua.with({
-                    extra_args = {
-                        "--indent-type",
-                        "Spaces",
-                        "--indent-width",
-                        "4",
-                    },
-                }),
-                null_ls.builtins.formatting.prettier,
-                null_ls.builtins.code_actions.gitsigns,
-                null_ls.builtins.diagnostics.cppcheck,
-                null_ls.builtins.formatting.clang_format.with({
-                    extra_args = { string.format("-style=file:%s", vim.fn.expand("$HOME/.clang-format")) },
-                }),
-                null_ls.builtins.diagnostics.pylint.with({
-                    extra_args = { string.format("--rcfile=%s", vim.fn.expand("~/.pylintrc")) },
-                }),
-            },
-        })
+	"nvimtools/none-ls.nvim",
+	dependencies = { "nvim-lua/plenary.nvim" },
+	config = function()
+		local null_ls = require("null-ls")
 
-        vim.keymap.set("n", "<leader>bf", vim.lsp.buf.format, {})
-    end,
+		null_ls.setup({
+			sources = {
+				null_ls.builtins.formatting.clang_format.with({
+					filetypes = { "c", "cpp" },
+					extra_args = {
+						string.format("--style=file:%s/.clang-format", vim.fn.expand("$HOME")),
+					},
+				}),
+
+				null_ls.builtins.formatting.stylua,
+				null_ls.builtins.formatting.prettier,
+			},
+
+			on_attach = function(client, bufnr)
+				if client.supports_method("textDocument/formatting") then
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						buffer = bufnr,
+						callback = function()
+							vim.lsp.buf.format({
+								bufnr = bufnr,
+								filter = function(c)
+									return c.name == "null-ls"
+								end,
+							})
+						end,
+					})
+				end
+			end,
+		})
+
+		vim.keymap.set("n", "<leader>bf", function()
+			vim.lsp.buf.format({
+				filter = function(client)
+					return client.name == "null-ls"
+				end,
+			})
+		end, { desc = "Format buffer" })
+	end,
 }
