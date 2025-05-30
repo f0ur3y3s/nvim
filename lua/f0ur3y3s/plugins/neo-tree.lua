@@ -43,8 +43,5 @@ return {
             --     },
             -- },
         })
-        local kmp = vim.keymap
-        kmp.set("n", "<C-n>", ":Neotree toggle<CR>", {})
-        kmp.set("n", "<leader>gs", "<cmd>Neotree float git_status<CR> ", {})
     end,
 }

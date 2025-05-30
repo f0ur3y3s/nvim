@@ -12,7 +12,6 @@ return {
             }
         })
 
-        vim.keymap.set("n", "<leader>ss", "<cmd>SessionSearch<CR>", { desc = "[S]earch [S]essions Telescope" })
         vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
     end,
 }

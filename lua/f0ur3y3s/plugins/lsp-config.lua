@@ -1,5 +1,5 @@
 local servers = {
-	"clangd",
+	"clangd", -- Add it back
 	"cmake",
 	"lua_ls",
 	"marksman",
@@ -26,6 +26,34 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = servers,
 				automatic_installation = true,
+				handlers = {
+					-- Default handler for all servers
+					function(server_name)
+						local capabilities = require("cmp_nvim_lsp").default_capabilities()
+						require("lspconfig")[server_name].setup({
+							capabilities = capabilities,
+						})
+					end,
+					-- Special clangd setup
+					["clangd"] = function()
+						local capabilities = require("cmp_nvim_lsp").default_capabilities()
+						require("lspconfig").clangd.setup({
+							capabilities = capabilities,
+							cmd = {
+								"clangd",
+								"--background-index",
+								"--clang-tidy",
+								"--completion-style=detailed",
+								"--enable-config",
+							},
+							-- Disable clangd formatting (let none-ls handle it)
+							on_attach = function(client, bufnr)
+								client.server_capabilities.documentFormattingProvider = false
+								client.server_capabilities.documentRangeFormattingProvider = false
+							end,
+						})
+					end,
+				},
 			})
 		end,
 	},
@@ -36,15 +64,12 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 		},
 		config = function()
-			vim.diagnostic.reset()
-			vim.g.loaded_syntax_completion = 1
-			vim.g.loaded_syntaxcomplete = 1
 			vim.diagnostic.config({
 				virtual_text = {
 					enabled = true,
 					source = false,
 					prefix = "●",
-					spacing = 2,
+					spacing = 4,
 				},
 				signs = {
 					text = {
@@ -62,44 +87,6 @@ return {
 					source = "always",
 				},
 			})
-
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local lspconfig = require("lspconfig")
-			local function setup_clangd()
-				-- Kill any existing clangd processes
-				local active_clients = vim.lsp.get_active_clients({ name = "clangd" })
-				for _, client in pairs(active_clients) do
-					client.stop()
-				end
-				vim.defer_fn(function()
-					lspconfig.clangd.setup({
-						capabilities = capabilities,
-						cmd = { "clangd", "--background-index", "--clang-tidy", "--completion-style=detailed" },
-						on_attach = function(client, bufnr)
-							-- Disable any other diagnostic sources for C files
-							vim.api.nvim_buf_set_option(bufnr, "makeprg", "")
-						end,
-					})
-				end, 100)
-			end
-
-			-- set up other servers normally
-			for _, server in ipairs(servers) do
-				if server ~= "clangd" then
-					lspconfig[server].setup({
-						capabilities = capabilities,
-					})
-				end
-			end
-			setup_clangd()
-			local kmp = vim.keymap
-			kmp.set("n", "K", vim.lsp.buf.hover, {})
-			kmp.set("n", "<leader>gd", vim.lsp.buf.definition, {})
-			kmp.set("n", "<leader>gr", vim.lsp.buf.references, {})
-			kmp.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
-			kmp.set("n", "<leader>e", vim.diagnostic.open_float, {})
-			kmp.set("n", "[d", vim.diagnostic.goto_prev, {})
-			kmp.set("n", "]d", vim.diagnostic.goto_next, {})
 		end,
 	},
 }

@@ -26,21 +26,5 @@ return {
                 })
                 :find()
         end
-
-        local kmp = vim.keymap
-
-        kmp.set("n", "<leader>ha", function()
-            harpoon:list():add()
-        end)
-        kmp.set("n", "<leader>hf", function()
-            -- harpoon.ui:toggle_quick_menu(harpoon:list())
-            toggle_telescope(harpoon:list())
-        end, { desc = "List all harpoons" })
-        kmp.set("n", "<leader>hl", function()
-            harpoon:list():next()
-        end, { desc = "Goto next buffer" })
-        kmp.set("n", "<leader>hh", function()
-            harpoon:list():prev()
-        end, { desc = "Goto prev buffer" })
     end,
 }
