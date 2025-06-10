@@ -18,7 +18,8 @@ return {
 			},
 
 			on_attach = function(client, bufnr)
-				if client.supports_method("textDocument/formatting") then
+				-- Fix: Use client:supports_method instead of client.supports_method
+				if client:supports_method("textDocument/formatting") then
 					vim.api.nvim_create_autocmd("BufWritePre", {
 						buffer = bufnr,
 						callback = function()
@@ -34,12 +35,6 @@ return {
 			end,
 		})
 
-		vim.keymap.set("n", "<leader>bf", function()
-			vim.lsp.buf.format({
-				filter = function(client)
-					return client.name == "null-ls"
-				end,
-			})
-		end, { desc = "Format buffer" })
+		-- Keymap removed - now in which-key
 	end,
 }

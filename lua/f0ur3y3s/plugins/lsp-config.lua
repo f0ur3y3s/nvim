@@ -1,9 +1,8 @@
 local servers = {
-	"clangd", -- Add it back
+	"clangd",
 	"cmake",
 	"lua_ls",
 	"marksman",
-	"pylsp",
 	"ruff",
 	"vimls",
 }
@@ -25,7 +24,7 @@ return {
 		config = function()
 			require("mason-lspconfig").setup({
 				ensure_installed = servers,
-				automatic_installation = true,
+				-- Removed deprecated automatic_enable option
 				handlers = {
 					-- Default handler for all servers
 					function(server_name)
@@ -64,13 +63,18 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 		},
 		config = function()
+			-- Enhanced diagnostic configuration for 0.11
 			vim.diagnostic.config({
-				virtual_text = {
-					enabled = true,
-					source = false,
-					prefix = "●",
-					spacing = 4,
-				},
+				-- Enable virtual text (disabled by default in 0.11)
+				-- virtual_text = {
+				-- 	enabled = true,
+				-- 	source = false,
+				-- 	prefix = "●",
+				-- 	spacing = 4,
+				-- 	-- New 0.11 feature: only show at cursor line
+				-- 	current_line = false,
+				-- },
+				-- Updated signs configuration
 				signs = {
 					text = {
 						[vim.diagnostic.severity.ERROR] = "",
@@ -78,6 +82,7 @@ return {
 						[vim.diagnostic.severity.HINT] = "",
 						[vim.diagnostic.severity.INFO] = "",
 					},
+					-- Signs are now sorted by severity automatically
 				},
 				underline = true,
 				update_in_insert = false,
@@ -86,6 +91,20 @@ return {
 					border = "rounded",
 					source = "always",
 				},
+				-- New 0.11 feature: virtual lines for diagnostics
+				-- Uncomment to enable:
+				virtual_lines = {
+					enabled = true,
+				},
+			})
+
+			-- Enhanced hover and signature help (leverages 0.11 improvements)
+			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+				border = "rounded",
+			})
+
+			vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+				border = "rounded",
 			})
 		end,
 	},
