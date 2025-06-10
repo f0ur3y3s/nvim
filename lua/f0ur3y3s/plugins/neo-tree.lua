@@ -6,6 +6,7 @@ return {
 		"nvim-tree/nvim-web-devicons",
 		"MunifTanjim/nui.nvim",
 	},
+	lazy = false,
 	config = function()
 		require("neo-tree").setup({
 			-- Prevent Neo-tree from automatically opening on directory
@@ -40,13 +41,13 @@ return {
 
 			-- Enhanced event handlers
 			event_handlers = {
-				{
-					event = "file_opened",
-					handler = function()
-						-- Close Neo-tree when opening a file
-						require("neo-tree.command").execute({ action = "close" })
-					end,
-				},
+				-- {
+				-- 	-- event = "file_opened",
+				-- handler = function()
+				-- 	-- Close Neo-tree when opening a file
+				-- 	require("neo-tree.command").execute({ action = "close" })
+				-- end,
+				-- },
 				{
 					-- Prevent conflicts with alpha dashboard
 					event = "neo_tree_buffer_enter",
@@ -66,74 +67,15 @@ return {
 					noremap = true,
 					nowait = true,
 				},
-				mappings = {
-					-- Add quick open mapping
-					["<space>"] = {
-						"toggle_node",
-						nowait = false,
-					},
-					["<2-LeftMouse>"] = "open",
-					["<cr>"] = "open",
-					["<esc>"] = "cancel",
-					["P"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
-					["l"] = "focus_preview",
-					["S"] = "open_split",
-					["s"] = "open_vsplit",
-					["t"] = "open_tabnew",
-					["C"] = "close_node",
-					["z"] = "close_all_nodes",
-					["a"] = {
-						"add",
-						config = {
-							show_path = "none",
-						},
-					},
-					["A"] = "add_directory",
-					["d"] = "delete",
-					["r"] = "rename",
-					["y"] = "copy_to_clipboard",
-					["x"] = "cut_to_clipboard",
-					["p"] = "paste_from_clipboard",
-					["c"] = "copy",
-					["m"] = "move",
-					["q"] = "close_window",
-					["R"] = "refresh",
-					["?"] = "show_help",
-					["<"] = "prev_source",
-					[">"] = "next_source",
-					["i"] = "show_file_details",
-				},
 			},
 
 			default_component_configs = {
-				container = {
-					enable_character_fade = true,
-				},
-				indent = {
-					indent_size = 2,
-					padding = 1,
-					with_markers = true,
-					indent_marker = "│",
-					last_indent_marker = "└",
-					highlight = "NeoTreeIndentMarker",
-					with_expanders = nil,
-					expander_collapsed = "",
-					expander_expanded = "",
-					expander_highlight = "NeoTreeExpander",
-				},
-				icon = {
-					folder_closed = "",
-					folder_open = "",
-					folder_empty = "󰜌",
-					default = "*",
-					highlight = "NeoTreeFileIcon",
-				},
 				modified = {
 					symbol = "[+]",
 					highlight = "NeoTreeModified",
 				},
 				name = {
-					trailing_slash = false,
+					trailing_slash = true,
 					use_git_status_colors = true,
 					highlight = "NeoTreeFileName",
 				},
@@ -150,36 +92,6 @@ return {
 						conflict = "C",
 					},
 					align = "right",
-					-- symbols = {
-					-- 	added = "✚",
-					-- 	modified = "",
-					-- 	deleted = "✖",
-					-- 	renamed = "󰁕",
-					-- 	untracked = "",
-					-- 	ignored = "",
-					-- 	unstaged = "󰄱",
-					-- 	staged = "",
-					-- 	conflict = "",
-					-- },
-				},
-				file_size = {
-					enabled = true,
-					required_width = 64,
-				},
-				type = {
-					enabled = true,
-					required_width = 122,
-				},
-				last_modified = {
-					enabled = true,
-					required_width = 88,
-				},
-				created = {
-					enabled = true,
-					required_width = 110,
-				},
-				symlink_target = {
-					enabled = false,
 				},
 			},
 		})
