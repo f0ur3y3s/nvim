@@ -5,7 +5,7 @@ return {
 		local wk = require("which-key")
 
 		wk.setup({
-			preset = "modern",
+			preset = "helix",
 			delay = 300,
 			expand = 1,
 			notify = true,
@@ -22,41 +22,6 @@ return {
 				{ "<leader>w", group = "Window" },
 				{ "<leader>x", group = "Trouble/Quickfix" },
 			},
-			-- Window configuration for dragon theme
-			win = {
-				wo = {
-					winblend = 10, -- No transparency to ensure consistent colors
-				},
-			},
-
-			-- Disable plugins that might interfere with theming
-			plugins = {
-				marks = true,
-				registers = true,
-				spelling = {
-					enabled = true,
-					suggestions = 20,
-				},
-				presets = {
-					operators = false,
-					motions = false,
-					text_objects = false,
-					windows = false,
-					nav = false,
-					z = false,
-					g = false,
-				},
-			},
-
-			-- Disable built-in notifications to avoid conflicts
-			replace = {
-				key_labels = {},
-			},
-
-			-- Defer setup to ensure colorscheme is loaded
-			defer = function(ctx)
-				return ctx.mode == "v" or ctx.mode == "V" or ctx.mode == ""
-			end,
 		})
 
 		-- Function to check if LSP is attached
@@ -102,9 +67,9 @@ return {
 		-- FILE TREE & NAVIGATION
 		-- ================================================================
 		wk.add({
-			{ "<C-n>", "<cmd>Neotree toggle<cr>", desc = "Toggle Neo-tree" },
-			{ "<leader>e", "<cmd>Neotree focus<cr>", desc = "Focus Neo-tree" },
-			{ "<leader>E", "<cmd>Neotree close<cr>", desc = "Close Neo-tree" },
+			{ "<C-n>", "<cmd>NvimTreeToggle<cr>", desc = "Toggle nvim-tree" },
+			{ "<leader>e", "<cmd>NvimTreeFocus<cr>", desc = "Focus nvim-tree" },
+			{ "<leader>E", "<cmd>NvimTreeClose<cr>", desc = "Close nvim-tree" },
 		})
 
 		-- ================================================================

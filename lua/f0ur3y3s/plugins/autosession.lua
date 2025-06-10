@@ -14,7 +14,6 @@ return {
 				"~/Downloads",
 				"/",
 				"/tmp",
-				"~/.config/nvim", -- Prevent sessions in config directory
 			},
 
 			-- Enhanced session options for 0.11
@@ -138,11 +137,5 @@ return {
 				end
 			end,
 		})
-
-		-- Keymaps for session management
-		vim.keymap.set("n", "<leader>ss", "<cmd>SessionSearch<CR>", { desc = "Search Sessions", silent = true })
-		vim.keymap.set("n", "<leader>sd", "<cmd>SessionDelete<CR>", { desc = "Delete Session", silent = true })
-		vim.keymap.set("n", "<leader>sr", "<cmd>SessionRestore<CR>", { desc = "Restore Session", silent = true })
-		vim.keymap.set("n", "<leader>sS", "<cmd>SessionSave<CR>", { desc = "Save Session", silent = true })
 	end,
 }

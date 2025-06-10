@@ -8,9 +8,13 @@ return {
 			require("lualine").setup({
 				options = {
 					theme = "codedark",
+					-- theme = "base16",
 					icons_enabled = true,
 					component_separators = { left = "", right = "" },
 					section_separators = { left = "", right = "" },
+					disabled_filetypes = {
+						"NvimTree",
+					},
 				},
 				sections = {
 					lualine_a = { "mode" },
@@ -19,13 +23,15 @@ return {
 						"%=",
 						{ "filename", path = 3, separator = { left = "|" } },
 					},
-					lualine_y = { "progress" },
-					lualine_z = { "location" },
+					-- lualine_y = { "progress" },
+					-- lualine_z = { "location" },
+					lualine_y = {},
+					lualine_z = {},
 				},
 				inactive_sections = {
 					lualine_a = {},
 					lualine_b = {},
-					lualine_c = {},
+					lualine_c = { "filename" },
 					lualine_x = {},
 					lualine_y = {},
 					lualine_z = {},

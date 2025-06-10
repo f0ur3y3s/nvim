@@ -10,10 +10,7 @@ vim.cmd("set shiftwidth=4")
 vim.cmd("set clipboard=unnamedplus")
 vim.cmd("set signcolumn=auto")
 vim.cmd("set foldcolumn=0")
--- Fix floating window colors immediately
--- vim.cmd("set showtabline=2")
-
-vim.cmd("hi Normal guibg=None ctermbg=None")
+-- vim.cmd("hi Normal guibg=None ctermbg=None")
 
 local kmp = vim.keymap
 
