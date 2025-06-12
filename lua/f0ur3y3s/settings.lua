@@ -10,7 +10,8 @@ vim.cmd("set shiftwidth=4")
 vim.cmd("set clipboard=unnamedplus")
 vim.cmd("set signcolumn=auto")
 vim.cmd("set foldcolumn=0")
--- vim.cmd("hi Normal guibg=None ctermbg=None")
+vim.cmd("set foldmethod=indent")
+-- vim.cmd("hi normal guibg=none ctermbg=none")
 
 local kmp = vim.keymap
 
@@ -55,48 +56,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 kmp.set("n", "<M-j>", "<cmd>cnext<CR>", { silent = true })
 kmp.set("n", "<M-k>", "<cmd>cprev<CR>", { silent = true })
 
-local autocmd = vim.api.nvim_create_autocmd
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_netrwSettings = 1
 vim.g.loaded_netrwFileHandlers = 1
-
-local startup_group = vim.api.nvim_create_augroup("StartupBehavior", { clear = true })
-
--- Handle different startup scenarios
-vim.api.nvim_create_autocmd("VimEnter", {
-	group = startup_group,
-	callback = function()
-		local args = vim.fn.argv()
-		local buf_name = vim.api.nvim_buf_get_name(0)
-		local buf_ft = vim.bo[0].filetype
-		local buf_lines = vim.api.nvim_buf_line_count(0)
-
-		-- Scenario 1: No arguments (nvim)
-		if #args == 0 and buf_name == "" and buf_ft == "" and buf_lines == 1 then
-			require("alpha").start()
-			return
-		end
-
-		-- Scenario 2: Opening a directory (nvim .)
-		if #args == 1 and vim.fn.isdirectory(args[1]) == 1 then
-			-- Change to the directory
-			vim.cmd("cd " .. vim.fn.fnameescape(args[1]))
-
-			-- Clear the buffer
-			vim.cmd("enew")
-
-			-- Show alpha dashboard
-			require("alpha").start()
-
-			-- Optional: Auto-open Neo-tree after a short delay
-			vim.defer_fn(function()
-				vim.cmd("Neotree show")
-			end, 100)
-			return
-		end
-
-		-- Scenario 3: Opening files - let them open normally
-		-- No action needed for file opens
-	end,
-})

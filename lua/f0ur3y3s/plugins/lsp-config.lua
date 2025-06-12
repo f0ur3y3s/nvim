@@ -4,6 +4,7 @@ local servers = {
 	"lua_ls",
 	"marksman",
 	"ruff",
+	"pylsp",
 	"vimls",
 }
 
@@ -106,6 +107,7 @@ return {
 			vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
 				border = "rounded",
 			})
+			vim.lsp.enable("ruff")
 		end,
 	},
 }
