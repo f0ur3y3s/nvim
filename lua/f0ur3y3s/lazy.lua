@@ -17,14 +17,27 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup({
 	spec = {
 		{ import = "f0ur3y3s.plugins" },
+		{ import = "f0ur3y3s.plugins.lsp" },
+		{ import = "f0ur3y3s.plugins.visual" },
+		{ import = "f0ur3y3s.plugins.qol" },
 	},
-	-- install = { colorscheme = { "habamax" } },
 	checker = { enabled = true },
 })
 
 local startup_group = vim.api.nvim_create_augroup("StartupBehavior", { clear = true })
 
--- Handle different startup scenarios
+local function start_alpha_safely()
+	local ok, alpha = pcall(require, "alpha")
+	if ok then
+		local start_ok, err = pcall(alpha.start)
+		if not start_ok then
+			vim.notify("Failed to start Alpha: " .. tostring(err), vim.log.levels.ERROR)
+		end
+	end
+end
+
+start_alpha_safely()
+
 vim.api.nvim_create_autocmd("VimEnter", {
 	group = startup_group,
 	callback = function()
@@ -35,24 +48,19 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 		-- Scenario 1: No arguments (nvim)
 		if #args == 0 and buf_name == "" and buf_ft == "" and buf_lines == 1 then
-			require("alpha").start()
+			start_alpha_safely()
 			return
 		end
 
 		-- Scenario 2: Opening a directory (nvim .)
 		if #args == 1 and vim.fn.isdirectory(args[1]) == 1 then
-			-- Change to the directory
 			vim.cmd("cd " .. vim.fn.fnameescape(args[1]))
 
 			-- Clear the buffer
 			vim.cmd("enew")
-
-			-- Show alpha dashboard
-			require("alpha").start()
-
-			-- Optional: Auto-open Neo-tree after a short delay
+			start_alpha_safely()
 			vim.defer_fn(function()
-				vim.cmd("Neotree show")
+				vim.cmd("NvimTreeOpen")
 			end, 100)
 			return
 		end

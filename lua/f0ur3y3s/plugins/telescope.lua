@@ -26,7 +26,6 @@ return {
 			})
 
 			require("telescope").load_extension("ui-select")
-			-- Removed all keybind setups - now in which-key
 		end,
 	},
 }

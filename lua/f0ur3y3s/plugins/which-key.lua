@@ -120,17 +120,18 @@ return {
 			{ "<leader>bp", "<cmd>bprevious<cr>", desc = "Previous Buffer" },
 			{ "<leader>bl", "<cmd>bnext<cr>", desc = "Next Buffer" },
 			{ "<leader>bh", "<cmd>bprevious<cr>", desc = "Previous Buffer" },
-			{
-				"<leader>bf",
-				function()
-					vim.lsp.buf.format({
-						filter = function(client)
-							return client.name == "null-ls"
-						end,
-					})
-				end,
-				desc = "Format Buffer",
-			},
+			{ "<leader>bf", "<cmd>Format<cr>", desc = "Format Buffer" },
+			-- {
+			-- 	"<leader>bf",
+			-- 	function()
+			-- 		vim.lsp.buf.format({
+			-- 			filter = function(client)
+			-- 				return client.name == "null-ls"
+			-- 			end,
+			-- 		})
+			-- 	end,
+			-- 	desc = "Format Buffer",
+			-- },
 			{ "<leader>ba", '<cmd>%bdelete|edit #|normal `"<cr>', desc = "Delete All Buffers" },
 			{ "<leader>bo", '<cmd>%bdelete|edit #|normal `"<cr>', desc = "Delete Other Buffers" },
 
