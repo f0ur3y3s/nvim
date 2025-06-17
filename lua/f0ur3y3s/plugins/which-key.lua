@@ -325,7 +325,7 @@ return {
 
 			-- Diagnostic management
 			{
-				"<leader>e",
+				"<leader>df",
 				function()
 					vim.diagnostic.open_float()
 				end,

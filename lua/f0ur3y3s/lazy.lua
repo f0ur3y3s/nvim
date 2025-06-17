@@ -13,6 +13,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+-- vim.diagnostic.config({ virtual_lines = true })
 
 require("lazy").setup({
 	spec = {
@@ -24,21 +25,21 @@ require("lazy").setup({
 	checker = { enabled = true },
 })
 
-local startup_group = vim.api.nvim_create_augroup("StartupBehavior", { clear = true })
+-- local startup_group = vim.api.nvim_create_augroup("StartupBehavior", { clear = true })
 
 local function start_alpha_safely()
 	local ok, alpha = pcall(require, "alpha")
 	if ok then
 		local start_ok, err = pcall(alpha.start)
 		if not start_ok then
-			vim.notify("Failed to start Alpha: " .. tostring(err), vim.log.levels.ERROR)
+			vim.notify("failed to start alpha: " .. tostring(err), vim.log.levels.error)
 		end
 	end
 end
 
-start_alpha_safely()
+-- start_alpha_safely()
 
-vim.api.nvim_create_autocmd("VimEnter", {
+vim.api.nvim_create_autocmd("vimenter", {
 	group = startup_group,
 	callback = function()
 		local args = vim.fn.argv()
@@ -46,26 +47,26 @@ vim.api.nvim_create_autocmd("VimEnter", {
 		local buf_ft = vim.bo[0].filetype
 		local buf_lines = vim.api.nvim_buf_line_count(0)
 
-		-- Scenario 1: No arguments (nvim)
+		-- scenario 1: no arguments (nvim)
 		if #args == 0 and buf_name == "" and buf_ft == "" and buf_lines == 1 then
 			start_alpha_safely()
 			return
 		end
 
-		-- Scenario 2: Opening a directory (nvim .)
+		-- scenario 2: opening a directory (nvim .)
 		if #args == 1 and vim.fn.isdirectory(args[1]) == 1 then
 			vim.cmd("cd " .. vim.fn.fnameescape(args[1]))
 
-			-- Clear the buffer
+			-- clear the buffer
 			vim.cmd("enew")
 			start_alpha_safely()
 			vim.defer_fn(function()
-				vim.cmd("NvimTreeOpen")
+				vim.cmd("nvimtreeopen")
 			end, 100)
 			return
 		end
 
-		-- Scenario 3: Opening files - let them open normally
-		-- No action needed for file opens
+		-- scenario 3: opening files - let them open normally
+		-- no action needed for file opens
 	end,
 })

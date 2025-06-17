@@ -11,7 +11,6 @@ vim.cmd("set clipboard=unnamedplus")
 vim.cmd("set signcolumn=auto")
 vim.cmd("set foldcolumn=0")
 vim.cmd("set foldmethod=indent")
--- vim.cmd("hi normal guibg=none ctermbg=none")
 
 local kmp = vim.keymap
 
@@ -38,9 +37,6 @@ kmp.set("n", "<c-l>", "<c-w><c-l>")
 
 -- Terminal functions
 kmp.set("t", "jk", "<c-\\><c-n>")
-
--- Execute current lua buffer
-kmp.set("n", "<Space>ex", "<cmd>.lua<CR>", { silent = true })
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {

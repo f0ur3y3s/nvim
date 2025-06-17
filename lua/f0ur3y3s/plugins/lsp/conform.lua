@@ -20,8 +20,8 @@ return {
 			},
 		})
 
-		-- conform.formatters.clang-format = {
-		--     prepend_args
+		-- conform.formatters.clang_format = {
+		-- prepend_args = { "-style", "file:$HOME/.clang-format" },
 		-- }
 	end,
 
