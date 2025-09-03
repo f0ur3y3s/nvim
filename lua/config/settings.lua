@@ -1,16 +1,16 @@
-vim.cmd("set number")
-vim.cmd("set relativenumber")
-vim.cmd("set hidden")
-vim.cmd("set nobackup")
-vim.cmd("set noswapfile")
-vim.cmd("set nowritebackup")
-vim.cmd("set expandtab")
-vim.cmd("set tabstop=5")
-vim.cmd("set shiftwidth=4")
-vim.cmd("set clipboard=unnamedplus")
-vim.cmd("set signcolumn=auto")
-vim.cmd("set foldcolumn=0")
-vim.cmd("set foldmethod=marker")
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.hidden = true
+vim.opt.backup = false
+vim.opt.swapfile = false
+vim.opt.writebackup = false
+vim.opt.expandtab = true
+vim.opt.tabstop = 5
+vim.opt.shiftwidth = 4
+vim.opt.clipboard = "unnamedplus"
+vim.opt.signcolumn = "auto"
+vim.opt.foldcolumn = "0"
+vim.opt.foldmethod = "marker"
 
 local kmp = vim.keymap
 

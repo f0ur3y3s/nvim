@@ -4,9 +4,19 @@ return {
     config = function()
         require("mini.pairs").setup()
         require("mini.ai").setup()
-        require("mini.files").setup()
-
-        -- appearance
+        require("mini.files").setup({
+            vim.api.nvim_create_autocmd("User", {
+                pattern = "MiniFilesBufferCreate",
+                callback = function(args)
+                    local buf_id = args.data.buf_id
+                    vim.keymap.set("n", "jk", function()
+                        MiniFiles.close()
+                    end, { buffer = buf_id, desc = "Close MiniFiles" })
+                end,
+            })
+        })
+        require("mini.git").setup()
+        require("mini.diff").setup()
         require("mini.icons").setup()
         require("mini.statusline").setup()
         require("mini.notify").setup()
@@ -21,11 +31,16 @@ return {
             vim.api.nvim_create_autocmd("ModeChanged", {
                 pattern = "*:n",  -- Any mode to normal mode
                 callback = function()
-                    MiniTrailspace.trim()
+                    if vim.bo.modifiable and not vim.bo.readonly then
+                        MiniTrailspace.trim()
+                    end
                 end,
             })
         })
+        require("mini.surround").setup()
         require("mini.tabline").setup()
         require("mini.cursorword").setup()
+        require("mini.completion").setup()
+        require("mini.snippets").setup()
     end,
 }
