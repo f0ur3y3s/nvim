@@ -1,3 +1,11 @@
+-- return {
+-- 	"nyoom-engineering/oxocarbon.nvim",
+-- 	config = function()
+-- 		vim.opt.background = "dark"
+-- 		vim.cmd([[colorscheme oxocarbon]])
+-- 	end,
+-- }
+
 return {
 	"EdenEast/nightfox.nvim",
 	config = function()

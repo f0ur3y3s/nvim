@@ -10,7 +10,7 @@ return {
 				{ "<leader>f", group = "Find/Files" },
 				{ "<leader>b", group = "Buffer" },
 				{ "<leader>w", group = "Window" },
-				{ "<leader>c", group = "Code" },
+				{ "<leader>.", group = "QuickFix Action" },
 			},
 		})
 
@@ -28,6 +28,10 @@ return {
 			{ "<S-j>", ":m '>+1<CR>gv=gv", desc = "Move selection down", mode = "v" },
 			{ "<S-k>", ":m '<-2<CR>gv=gv", desc = "Move selection up", mode = "v" },
 
+			-- Buffer movement
+			{ "<S-l>", "<cmd>bnext<cr>", desc = "Next Buffer" },
+			{ "<S-h>", "<cmd>bprevious<cr>", desc = "Previous Buffer" },
+
 			-- Window navigation
 			{ "<C-h>", "<C-w>h", desc = "Move to left window" },
 			{ "<C-j>", "<C-w>j", desc = "Move to bottom window" },
@@ -38,8 +42,8 @@ return {
 			{ "<C-u>", "<C-u>zz", desc = "Page Up (centered)" },
 			{ "<C-d>", "<C-d>zz", desc = "Page Down (centered)" },
 
-			{ "<leader>L", "<cmd>Lazy<cr>", desc = "Open Lazy" },
-			{ "<leader>M", "<cmd>Mason<cr>", desc = "Open Mason" },
+			{ "<leader>l", "<cmd>Lazy<cr>", desc = "Open Lazy" },
+			{ "<leader>m", "<cmd>Mason<cr>", desc = "Open Mason" },
 		})
 
 		-- WINDOW MANAGEMENT
@@ -47,7 +51,7 @@ return {
 			{ "<leader>wv", "<cmd>vsplit<cr>", desc = "Vertical Split" },
 			{ "<leader>ws", "<cmd>split<cr>", desc = "Horizontal Split" },
 			{ "<leader>wc", "<cmd>close<cr>", desc = "Close Window" },
-			{ "<leader>wo", "<cmd>only<cr>", desc = "Only Window" },
+			-- { "<leader>wo", "<cmd>only<cr>", desc = "Only Window" },
 			-- { "<leader>wh", "<C-w>h", desc = "Move to Left Window" },
 			-- { "<leader>wj", "<C-w>j", desc = "Move to Bottom Window" },
 			-- { "<leader>wk", "<C-w>k", desc = "Move to Top Window" },
@@ -63,8 +67,6 @@ return {
 		wk.add({
 			{ "<leader>bd", "<cmd>bdelete<cr>", desc = "Delete Buffer" },
 			{ "<leader>bD", "<cmd>bdelete!<cr>", desc = "Force Delete Buffer" },
-			{ "<leader>bn", "<cmd>bnext<cr>", desc = "Next Buffer" },
-			{ "<leader>bp", "<cmd>bprevious<cr>", desc = "Previous Buffer" },
 			{ "<leader>bl", "<cmd>bnext<cr>", desc = "Next Buffer" },
 			{ "<leader>bh", "<cmd>bprevious<cr>", desc = "Previous Buffer" },
 			{ "<leader>ba", '<cmd>%bdelete|edit #|normal `"<cr>', desc = "Delete All Buffers" },
@@ -75,14 +77,99 @@ return {
 			local get_clients = vim.lsp.get_clients or vim.lsp.get_active_clients
 			return next(get_clients({ bufnr = 0 })) ~= nil
 		end
+
 		-- CODE ACTIONS
 		wk.add({
 			{
-				"<leader>ca",
+				"gd",
+				function()
+					vim.lsp.buf.definition()
+				end,
+				desc = "Go to Definition",
+				cond = lsp_attached,
+			},
+			{
+				"gD",
+				function()
+					vim.lsp.buf.declaration()
+				end,
+				desc = "Go to Declaration",
+				cond = lsp_attached,
+			},
+			{
+				"gr",
+				function()
+					vim.lsp.buf.references()
+				end,
+				desc = "Go to References",
+				cond = lsp_attached,
+			},
+			{
+				"gi",
+				function()
+					vim.lsp.buf.implementation()
+				end,
+				desc = "Go to Implementation",
+				cond = lsp_attached,
+			},
+			{
+				"gt",
+				function()
+					vim.lsp.buf.type_definition()
+				end,
+				desc = "Go to Type Definition",
+				cond = lsp_attached,
+			},
+			{
+				"gh",
+				function()
+					vim.lsp.buf.hover()
+				end,
+				desc = "Hover Documentation",
+				cond = lsp_attached,
+			},
+			{
+				"<C-k>",
+				function()
+					vim.lsp.buf.signature_help()
+				end,
+				desc = "Signature Help",
+				mode = "i",
+				cond = lsp_attached,
+			},
+		})
+
+		wk.add({
+			{
+				"<leader>.a",
 				function()
 					vim.lsp.buf.code_action()
 				end,
 				desc = "Code Action",
+				cond = lsp_attached,
+			},
+			{
+				"<leader>.r",
+				function()
+					vim.lsp.buf.rename()
+				end,
+				desc = "Rename Symbol",
+				cond = lsp_attached,
+			},
+			{
+				"<leader>.s",
+				function()
+					vim.lsp.buf.signature_help()
+				end,
+				desc = "Signature Help",
+				cond = lsp_attached,
+			},
+			{
+				"<leader>.f",
+				function()
+					vim.lsp.buf.format()
+				end,
+				desc = "Format Document",
 				cond = lsp_attached,
 			},
 		})

@@ -15,6 +15,7 @@ return {
 			"clangd",
 			"ruff",
 			"stylua",
+			"lua-ls",
 		},
 	},
 	{
