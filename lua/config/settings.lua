@@ -1,25 +1,29 @@
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.hidden = true
-vim.opt.backup = false
-vim.opt.swapfile = false
-vim.opt.writebackup = false
-vim.opt.expandtab = true
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
-vim.opt.clipboard = "unnamedplus"
-vim.opt.signcolumn = "yes"
-vim.opt.foldcolumn = "0"
-vim.opt.foldmethod = "marker"
-vim.opt.list = true
-vim.opt.listchars = {
+local vo = vim.opt
+
+vo.number = true
+vo.relativenumber = true
+vo.hidden = true
+vo.backup = false
+vo.swapfile = false
+vo.writebackup = false
+vo.expandtab = true
+vo.tabstop = 4
+vo.shiftwidth = 4
+vo.softtabstop = 4
+vo.clipboard = "unnamedplus"
+vo.signcolumn = "yes"
+vo.foldcolumn = "0"
+vo.foldmethod = "marker"
+vo.list = true
+vo.listchars = {
 	tab = "▸ ", -- Show tabs as ▸ followed by spaces
 	trail = "·", -- Show trailing spaces as dots
 	extends = "❯", -- Show when line extends beyond screen
 	precedes = "❮", -- Show when line precedes screen
 	nbsp = "␣", -- Show non-breaking spaces
 }
+vo.undofile = true
+vo.undodir = "~/.config/nvim/undodir"
 
 local kmp = vim.keymap
 
@@ -27,16 +31,6 @@ local kmp = vim.keymap
 kmp.set("i", "jk", "<Esc>")
 kmp.set("n", "<Tab>", ">>")
 kmp.set("n", "<S-Tab>", "<<")
-
--- Resize functions
-kmp.set("n", "<M-,>", "<c-w>5<")
-kmp.set("n", "<M-.>", "<c-w>5>")
-kmp.set("n", "<M-t>", "<c-w>+")
-kmp.set("n", "<M-s>", "<c-w>-")
-
--- Buffer navigation
-kmp.set("n", "<M-S-h>", ":bprev<CR>", { silent = true })
-kmp.set("n", "<M-S-l>", ":bnext<CR>", { silent = true })
 
 -- Window navigation
 kmp.set("n", "<c-h>", "<c-w><c-h>")
@@ -56,12 +50,3 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 1000 })
 	end,
 })
-
--- Quickfix
-kmp.set("n", "<M-j>", "<cmd>cnext<CR>", { silent = true })
-kmp.set("n", "<M-k>", "<cmd>cprev<CR>", { silent = true })
-
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
--- vim.g.loaded_netrwSettings = 1
--- vim.g.loaded_netrwFileHandlers = 1
