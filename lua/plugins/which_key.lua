@@ -1,191 +1,242 @@
 return {
-	"folke/which-key.nvim",
-	event = "VeryLazy",
-	config = function()
-		local wk = require("which-key")
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    config = function()
+        local wk = require("which-key")
 
-		wk.setup({
-			preset = "helix",
-			spec = {
-				{ "<leader>f", group = "Find/Files" },
-				{ "<leader>b", group = "Buffer" },
-				{ "<leader>w", group = "Window" },
-				{ "<leader>.", group = "QuickFix Action" },
-			},
-		})
+        wk.setup({
+            preset = "helix",
+            spec = {
+                { "<leader>f", group = "Find/Files" },
+                { "<leader>b", group = "Buffer" },
+                { "<leader>w", group = "Window" },
+                { "<leader>.", group = "QuickFix Action" },
+                { "<leader>d", group = "Diagnostics" }, -- Added diagnostics group
+            },
+        })
 
-		local minifiles_toggle = function(...)
-			if not MiniFiles.close() then
-				MiniFiles.open(...)
-			end
-		end
+        local minifiles_toggle = function(...)
+            if not MiniFiles.close() then
+                MiniFiles.open(...)
+            end
+        end
 
-		-- BASICS
-		wk.add({
-			-- Text movement
-			{ "<S-j>", ":m .+1<CR>==", desc = "Move line down" },
-			{ "<S-k>", ":m .-2<CR>==", desc = "Move line up" },
-			{ "<S-j>", ":m '>+1<CR>gv=gv", desc = "Move selection down", mode = "v" },
-			{ "<S-k>", ":m '<-2<CR>gv=gv", desc = "Move selection up", mode = "v" },
+        -- BASICS
+        wk.add({
+            -- Text movement
+            { "<S-j>", ":m .+1<CR>==", desc = "Move line down" },
+            { "<S-k>", ":m .-2<CR>==", desc = "Move line up" },
+            { "<S-j>", ":m '>+1<CR>gv=gv", desc = "Move selection down", mode = "v" },
+            { "<S-k>", ":m '<-2<CR>gv=gv", desc = "Move selection up", mode = "v" },
 
-			-- Buffer movement
-			{ "<S-l>", "<cmd>bnext<cr>", desc = "Next Buffer" },
-			{ "<S-h>", "<cmd>bprevious<cr>", desc = "Previous Buffer" },
+            -- Buffer movement
+            { "<S-l>", "<cmd>bnext<cr>", desc = "Next Buffer" },
+            { "<S-h>", "<cmd>bprevious<cr>", desc = "Previous Buffer" },
 
-			-- Window navigation
-			{ "<C-h>", "<C-w>h", desc = "Move to left window" },
-			{ "<C-j>", "<C-w>j", desc = "Move to bottom window" },
-			{ "<C-k>", "<C-w>k", desc = "Move to top window" },
-			{ "<C-l>", "<C-w>l", desc = "Move to right window" },
+            -- Window navigation
+            { "<C-h>", "<C-w>h", desc = "Move to left window" },
+            { "<C-j>", "<C-w>j", desc = "Move to bottom window" },
+            { "<C-k>", "<C-w>k", desc = "Move to top window" },
+            { "<C-l>", "<C-w>l", desc = "Move to right window" },
 
-			-- Screen movement
-			{ "<C-u>", "<C-u>zz", desc = "Page Up (centered)" },
-			{ "<C-d>", "<C-d>zz", desc = "Page Down (centered)" },
+            -- Screen movement
+            { "<C-u>", "<C-u>zz", desc = "Page Up (centered)" },
+            { "<C-d>", "<C-d>zz", desc = "Page Down (centered)" },
 
-			{ "<leader>l", "<cmd>Lazy<cr>", desc = "Open Lazy" },
-			{ "<leader>m", "<cmd>Mason<cr>", desc = "Open Mason" },
-		})
+            { "<leader>l", "<cmd>Lazy<cr>", desc = "Open Lazy" },
+            { "<leader>m", "<cmd>Mason<cr>", desc = "Open Mason" },
+        })
 
-		-- WINDOW MANAGEMENT
-		wk.add({
-			{ "<leader>wv", "<cmd>vsplit<cr>", desc = "Vertical Split" },
-			{ "<leader>ws", "<cmd>split<cr>", desc = "Horizontal Split" },
-			{ "<leader>wc", "<cmd>close<cr>", desc = "Close Window" },
-			-- { "<leader>wo", "<cmd>only<cr>", desc = "Only Window" },
-			-- { "<leader>wh", "<C-w>h", desc = "Move to Left Window" },
-			-- { "<leader>wj", "<C-w>j", desc = "Move to Bottom Window" },
-			-- { "<leader>wk", "<C-w>k", desc = "Move to Top Window" },
-			-- { "<leader>wl", "<C-w>l", desc = "Move to Right Window" },
-			{ "<leader>w=", "<C-w>=", desc = "Equalize Windows" },
-			{ "<leader>w+", "<cmd>resize +5<cr>", desc = "Increase Height" },
-			{ "<leader>w-", "<cmd>resize -5<cr>", desc = "Decrease Height" },
-			{ "<leader>w<", "<cmd>vertical resize -5<cr>", desc = "Decrease Width" },
-			{ "<leader>w>", "<cmd>vertical resize +5<cr>", desc = "Increase Width" },
-		})
+        -- WINDOW MANAGEMENT
+        wk.add({
+            { "<leader>wv", "<cmd>vsplit<cr>", desc = "Vertical Split" },
+            { "<leader>ws", "<cmd>split<cr>", desc = "Horizontal Split" },
+            { "<leader>wc", "<cmd>close<cr>", desc = "Close Window" },
+            { "<leader>w=", "<C-w>=", desc = "Equalize Windows" },
+            { "<leader>w+", "<cmd>resize +5<cr>", desc = "Increase Height" },
+            { "<leader>w-", "<cmd>resize -5<cr>", desc = "Decrease Height" },
+            { "<leader>w<", "<cmd>vertical resize -5<cr>", desc = "Decrease Width" },
+            { "<leader>w>", "<cmd>vertical resize +5<cr>", desc = "Increase Width" },
+        })
 
-		-- BUFFER MANAGEMENT
-		wk.add({
-			{ "<leader>bd", "<cmd>bdelete<cr>", desc = "Delete Buffer" },
-			{ "<leader>bD", "<cmd>bdelete!<cr>", desc = "Force Delete Buffer" },
-			{ "<leader>bl", "<cmd>bnext<cr>", desc = "Next Buffer" },
-			{ "<leader>bh", "<cmd>bprevious<cr>", desc = "Previous Buffer" },
-			{ "<leader>ba", '<cmd>%bdelete|edit #|normal `"<cr>', desc = "Delete All Buffers" },
-			{ "<leader>bo", '<cmd>%bdelete|edit #|normal `"<cr>', desc = "Delete Other Buffers" },
-		})
+        -- BUFFER MANAGEMENT
+        wk.add({
+            { "<leader>bd", "<cmd>bdelete<cr>", desc = "Delete Buffer" },
+            { "<leader>bD", "<cmd>bdelete!<cr>", desc = "Force Delete Buffer" },
+            { "<leader>bl", "<cmd>bnext<cr>", desc = "Next Buffer" },
+            { "<leader>bh", "<cmd>bprevious<cr>", desc = "Previous Buffer" },
+            { "<leader>ba", '<cmd>%bdelete|edit #|normal `"<cr>', desc = "Delete All Buffers" },
+            { "<leader>bo", '<cmd>%bdelete|edit #|normal `"<cr>', desc = "Delete Other Buffers" },
+        })
 
-		local function lsp_attached()
-			local get_clients = vim.lsp.get_clients or vim.lsp.get_active_clients
-			return next(get_clients({ bufnr = 0 })) ~= nil
-		end
+        local function lsp_attached()
+            local get_clients = vim.lsp.get_clients or vim.lsp.get_active_clients
+            return next(get_clients({ bufnr = 0 })) ~= nil
+        end
 
-		-- CODE ACTIONS
-		wk.add({
-			{
-				"gd",
-				function()
-					vim.lsp.buf.definition()
-				end,
-				desc = "Go to Definition",
-				cond = lsp_attached,
-			},
-			{
-				"gD",
-				function()
-					vim.lsp.buf.declaration()
-				end,
-				desc = "Go to Declaration",
-				cond = lsp_attached,
-			},
-			{
-				"gr",
-				function()
-					vim.lsp.buf.references()
-				end,
-				desc = "Go to References",
-				cond = lsp_attached,
-			},
-			{
-				"gi",
-				function()
-					vim.lsp.buf.implementation()
-				end,
-				desc = "Go to Implementation",
-				cond = lsp_attached,
-			},
-			{
-				"gt",
-				function()
-					vim.lsp.buf.type_definition()
-				end,
-				desc = "Go to Type Definition",
-				cond = lsp_attached,
-			},
-			{
-				"gh",
-				function()
-					vim.lsp.buf.hover()
-				end,
-				desc = "Hover Documentation",
-				cond = lsp_attached,
-			},
-			{
-				"<C-k>",
-				function()
-					vim.lsp.buf.signature_help()
-				end,
-				desc = "Signature Help",
-				mode = "i",
-				cond = lsp_attached,
-			},
-		})
+        local vlb = vim.lsp.buf
+        -- CODE ACTIONS
+        wk.add({
+            {
+                "gd",
+                function()
+                    vlb.definition()
+                end,
+                desc = "Go to Definition",
+                cond = lsp_attached,
+            },
+            {
+                "gD",
+                function()
+                    vlb.declaration()
+                end,
+                desc = "Go to Declaration",
+                cond = lsp_attached,
+            },
+            {
+                "gr",
+                function()
+                    vlb.references()
+                end,
+                desc = "Go to References",
+                cond = lsp_attached,
+            },
+            {
+                "gi",
+                function()
+                    vlb.implementation()
+                end,
+                desc = "Go to Implementation",
+                cond = lsp_attached,
+            },
+            {
+                "gt",
+                function()
+                    vlb.type_definition()
+                end,
+                desc = "Go to Type Definition",
+                cond = lsp_attached,
+            },
+            {
+                "gh",
+                function()
+                    vlb.hover()
+                end,
+                desc = "Hover Documentation",
+                cond = lsp_attached,
+            },
+            {
+                "<C-k>",
+                function()
+                    vlb.signature_help()
+                end,
+                desc = "Signature Help",
+                mode = "i",
+                cond = lsp_attached,
+            },
+        })
 
-		wk.add({
-			{
-				"<leader>.a",
-				function()
-					vim.lsp.buf.code_action()
-				end,
-				desc = "Code Action",
-				cond = lsp_attached,
-			},
-			{
-				"<leader>.r",
-				function()
-					vim.lsp.buf.rename()
-				end,
-				desc = "Rename Symbol",
-				cond = lsp_attached,
-			},
-			{
-				"<leader>.s",
-				function()
-					vim.lsp.buf.signature_help()
-				end,
-				desc = "Signature Help",
-				cond = lsp_attached,
-			},
-			{
-				"<leader>.f",
-				function()
-					vim.lsp.buf.format()
-				end,
-				desc = "Format Document",
-				cond = lsp_attached,
-			},
-		})
+        wk.add({
+            {
+                "<leader>.a",
+                function()
+                    vlb.code_action()
+                end,
+                desc = "Code Action",
+                cond = lsp_attached,
+            },
+            {
+                "<leader>.r",
+                function()
+                    vlb.rename()
+                end,
+                desc = "Rename Symbol",
+                cond = lsp_attached,
+            },
+            {
+                "<leader>.s",
+                function()
+                    vlb.signature_help()
+                end,
+                desc = "Signature Help",
+                cond = lsp_attached,
+            },
+            {
+                "<leader>.f",
+                function()
+                    vlb.format()
+                end,
+                desc = "Format Document",
+                cond = lsp_attached,
+            },
+        })
 
-		-- MINI CONFIG
-		wk.add({
-			{ "<leader>e", minifiles_toggle, desc = "Opens file explorer" },
-			{ "<leader>tw", "<cmd>lua MiniTrailspace.trim()<cr>", desc = "Trim trailing whitespace" },
-		})
+        -- DIAGNOSTICS
+        wk.add({
+            {
+                "<leader>dd",
+                "<cmd>Telescope diagnostics bufnr=0<cr>",
+                desc = "Buffer Diagnostics",
+                cond = lsp_attached,
+            },
+            {
+                "<leader>dw",
+                "<cmd>Telescope diagnostics<cr>",
+                desc = "Workspace Diagnostics",
+                cond = lsp_attached,
+            },
+            {
+                "<leader>dl",
+                function()
+                    vim.diagnostic.open_float()
+                end,
+                desc = "Line Diagnostics",
+                cond = lsp_attached,
+            },
+            {
+                "<leader>dt",
+                function()
+                    local current_config = vim.diagnostic.config()
+                    local new_virtual_text = not current_config.virtual_text
+                    vim.diagnostic.config({
+                        virtual_text = new_virtual_text,
+                    })
+                    print("Virtual text diagnostics: " .. (new_virtual_text and "ON" or "OFF"))
+                end,
+                desc = "Toggle Inline Diagnostics",
+            },
+            {
+                "[d",
+                function()
+                    vim.diagnostic.goto_prev()
+                end,
+                desc = "Previous Diagnostic",
+                cond = lsp_attached,
+            },
+            {
+                "]d",
+                function()
+                    vim.diagnostic.goto_next()
+                end,
+                desc = "Next Diagnostic",
+                cond = lsp_attached,
+            },
+        })
 
-		-- TELESCOPE
-		wk.add({
-			{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
-			{ "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
-			{ "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find Buffers" },
-			{ "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer Fuzzy Find" },
-		})
-	end,
+        -- MINI CONFIG
+        wk.add({
+            { "<leader>e", minifiles_toggle, desc = "Opens file explorer" },
+            { "<leader>tw", "<cmd>lua MiniTrailspace.trim()<cr>", desc = "Trim trailing whitespace" },
+        })
+
+        -- TELESCOPE
+        wk.add({
+            { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
+            { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
+            { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find Buffers" },
+            { "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer Fuzzy Find" },
+            -- Alternative: Add diagnostics under the find group
+            -- { "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Find Diagnostics" },
+        })
+    end,
 }

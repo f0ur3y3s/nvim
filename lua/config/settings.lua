@@ -9,9 +9,17 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.clipboard = "unnamedplus"
-vim.opt.signcolumn = "auto"
+vim.opt.signcolumn = "yes"
 vim.opt.foldcolumn = "0"
 vim.opt.foldmethod = "marker"
+vim.opt.list = true
+vim.opt.listchars = {
+	tab = "▸ ", -- Show tabs as ▸ followed by spaces
+	trail = "·", -- Show trailing spaces as dots
+	extends = "❯", -- Show when line extends beyond screen
+	precedes = "❮", -- Show when line precedes screen
+	nbsp = "␣", -- Show non-breaking spaces
+}
 
 local kmp = vim.keymap
 
