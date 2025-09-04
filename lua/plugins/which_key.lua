@@ -23,6 +23,7 @@ return {
 			end
 		end
 
+		local neoscroll = require("neoscroll")
 		-- BASICS
 		wk.add({
 			-- Text movement
@@ -42,21 +43,42 @@ return {
 			{ "<C-l>", "<C-w>l", desc = "Move to right window" },
 
 			-- Screen movement
-			{ "<C-u>", "<C-u>zz", desc = "Page Up (centered)" },
-			{ "<C-d>", "<C-d>zz", desc = "Page Down (centered)" },
+			{
+				"<C-u>",
+				function()
+					neoscroll.ctrl_u({ duration = 100 })
+					vim.schedule(function()
+						vim.cmd("normal! zz")
+					end)
+				end,
+				desc = "Page Up (centered)",
+			},
+			{
+				"<C-d>",
+				function()
+					neoscroll.ctrl_d({ duration = 100 })
+					vim.schedule(function()
+						vim.cmd("normal! zz")
+					end)
+				end,
+				desc = "Page Down (centered)",
+			},
+			-- { "<C-u>", "<C-u>zz", desc = "Page Up (centered)" },
+			-- { "<C-d>", "<C-d>zz", desc = "Page Down (centered)" },
+			{ "<leader>e", minifiles_toggle, desc = "Open file explorer" },
 		})
 
 		-- OPEN GROUP
 		wk.add({
 			{ "<leader>ol", "<cmd>Lazy<cr>", desc = "Open Lazy" },
 			{ "<leader>om", "<cmd>Mason<cr>", desc = "Open Mason" },
-			{ "<leader>oe", minifiles_toggle, desc = "Open file explorer" },
+			{ "<leader>ot", "<cmd>Themery<cr>", desc = "Open themery" },
 		})
 
 		-- WINDOW MANAGEMENT
 		wk.add({
 			{ "<leader>wv", "<cmd>vsplit<cr>", desc = "Vertical Split" },
-			{ "<leader>ws", "<cmd>split<cr>", desc = "Horizontal Split" },
+			{ "<leader>wh", "<cmd>split<cr>", desc = "Horizontal Split" },
 			{ "<leader>wc", "<cmd>close<cr>", desc = "Close Window" },
 			{ "<leader>w=", "<C-w>=", desc = "Equalize Windows" },
 			{ "<leader>w+", "<cmd>resize +5<cr>", desc = "Increase Height" },
@@ -275,8 +297,7 @@ return {
 			{ "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
 			{ "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find Buffers" },
 			{ "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer Fuzzy Find" },
-			-- Alternative: Add diagnostics under the find group
-			-- { "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Find Diagnostics" },
+			{ "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
 		})
 
 		wk.add({

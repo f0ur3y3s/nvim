@@ -23,7 +23,23 @@ vo.listchars = {
 	nbsp = "␣", -- Show non-breaking spaces
 }
 vo.undofile = true
-vo.undodir = "~/.config/nvim/undodir"
+vo.background = "dark"
+
+-- Detect platform and set appropriate undodir
+local undodir
+
+if vim.fn.has("win32") == 1 then
+	undodir = vim.env.LOCALAPPDATA .. "/nvim/undodir"
+else
+	undodir = vim.env.HOME .. "/.config/nvim/undodir"
+end
+
+-- Create directory if it doesn't exist
+if vim.fn.isdirectory(undodir) == 0 then
+	vim.fn.mkdir(undodir, "p")
+end
+
+vo.undodir = undodir
 
 local kmp = vim.keymap
 
