@@ -11,8 +11,16 @@ return {
 				{ "<leader>b", group = "Buffer" },
 				{ "<leader>w", group = "Window" },
 				{ "<leader>.", group = "QuickFix Action" },
+				{ "<leader>o", group = "Open" },
+				{ "<leader>d", group = "Debug" },
+				-- no "<leader>t" group label: <leader>tw (trim whitespace) and
+				-- <leader>tt (toggle terminal) share the prefix but aren't
+				-- related, so a "Terminal" label would misdescribe tw
 			},
 		})
+
+		local dap = require("dap")
+		local dapui = require("dapui")
 
 		local minifiles_toggle = function(...)
 			if not MiniFiles.close() then
@@ -42,8 +50,12 @@ return {
 			{ "<C-u>", "<C-u>zz", desc = "Page Up (centered)" },
 			{ "<C-d>", "<C-d>zz", desc = "Page Down (centered)" },
 
-			{ "<leader>l", "<cmd>Lazy<cr>", desc = "Open Lazy" },
-			{ "<leader>m", "<cmd>Mason<cr>", desc = "Open Mason" },
+		})
+
+		-- OPEN
+		wk.add({
+			{ "<leader>ol", "<cmd>Lazy<cr>", desc = "Open Lazy" },
+			{ "<leader>om", "<cmd>Mason<cr>", desc = "Open Mason" },
 		})
 
 		-- WINDOW MANAGEMENT
@@ -52,6 +64,8 @@ return {
 			{ "<leader>ws", "<cmd>split<cr>", desc = "Horizontal Split" },
 			{ "<leader>wc", "<cmd>close<cr>", desc = "Close Window" },
 			-- { "<leader>wo", "<cmd>only<cr>", desc = "Only Window" },
+			-- hjkl variants below left disabled: <C-h/j/k/l> (settings.lua)
+			-- already cover window nav without the <leader>w prefix
 			-- { "<leader>wh", "<C-w>h", desc = "Move to Left Window" },
 			-- { "<leader>wj", "<C-w>j", desc = "Move to Bottom Window" },
 			-- { "<leader>wk", "<C-w>k", desc = "Move to Top Window" },
@@ -73,6 +87,68 @@ return {
 			{ "<leader>bo", '<cmd>%bdelete|edit #|normal `"<cr>', desc = "Delete Other Buffers" },
 		})
 
+		-- DEBUG
+		wk.add({
+			{
+				"<leader>db",
+				function()
+					dap.toggle_breakpoint()
+				end,
+				desc = "Toggle Breakpoint",
+			},
+			{
+				"<leader>dc",
+				function()
+					dap.continue()
+				end,
+				desc = "Continue/Start",
+			},
+			{
+				"<leader>di",
+				function()
+					dap.step_into()
+				end,
+				desc = "Step Into",
+			},
+			{
+				"<leader>do",
+				function()
+					dap.step_over()
+				end,
+				desc = "Step Over",
+			},
+			{
+				"<leader>dO",
+				function()
+					dap.step_out()
+				end,
+				desc = "Step Out",
+			},
+			{
+				"<leader>dr",
+				function()
+					dap.repl.open()
+				end,
+				desc = "Open REPL",
+			},
+			{
+				"<leader>du",
+				function()
+					dapui.toggle()
+				end,
+				desc = "Toggle DAP UI",
+			},
+			{
+				"<leader>dt",
+				function()
+					dap.terminate()
+				end,
+				desc = "Terminate Session",
+			},
+		})
+
+		-- gates the LSP-only mappings below via which-key's `cond`, so they're
+		-- only active in buffers that actually have an attached client
 		local function lsp_attached()
 			return next(vim.lsp.get_clients({ bufnr = 0 })) ~= nil
 		end
@@ -171,12 +247,26 @@ return {
 				desc = "Format Document",
 				cond = lsp_attached,
 			},
+			{
+				"<leader>.h",
+				function()
+					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
+				end,
+				desc = "Toggle Inlay Hints",
+				cond = lsp_attached,
+			},
 		})
 
 		-- MINI CONFIG
 		wk.add({
 			{ "<leader>e", minifiles_toggle, desc = "Opens file explorer" },
+		})
+
+		-- "t" prefix, no shared theme: trim-whitespace and toggle-terminal
+		-- just happen to share a key, not a which-key group (see spec above)
+		wk.add({
 			{ "<leader>tw", "<cmd>lua MiniTrailspace.trim()<cr>", desc = "Trim trailing whitespace" },
+			{ "<leader>tt", "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal" },
 		})
 
 		-- TELESCOPE

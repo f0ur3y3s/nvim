@@ -16,7 +16,7 @@ return {
 				markdown = { "mdformat" },
 			},
 			format_on_save = {
-				lsp_fallback = true,
+				lsp_fallback = true, -- use the attached LSP's formatter for filetypes not listed above
 				async = false,
 				timeout_ms = 500,
 			},

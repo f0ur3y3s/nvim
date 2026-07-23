@@ -1,3 +1,12 @@
+-- Three plugins split the Mason workflow because their `ensure_installed`
+-- lists are NOT interchangeable:
+--   - mason.nvim itself has no ensure_installed option at all — it's just
+--     the registry + :Mason UI (icons below).
+--   - mason-lspconfig's ensure_installed only accepts lspconfig server
+--     names; it validates against that list and warns on anything else
+--     (e.g. a formatter), silently skipping it.
+--   - mason-tool-installer's ensure_installed accepts arbitrary mason
+--     registry packages, so it's the one that actually installs formatters.
 return {
 	{
 		"mason-org/mason.nvim",

@@ -4,7 +4,8 @@ return {
 		local alpha = require("alpha")
 		local dashboard = require("alpha.themes.startify")
 
-		-- Function to get fortune | cowsay output
+		-- Requires `fortune` and `cowsay` on PATH (not present on Windows by
+		-- default); silently falls back to "Moo!" below if either is missing.
 		local function get_fortune()
 			local handle = io.popen("fortune | cowsay")
 			if handle then

@@ -45,12 +45,6 @@ kmp.set("n", "<M-s>", "<c-w>-")
 kmp.set("n", "<M-S-h>", ":bprev<CR>", { silent = true })
 kmp.set("n", "<M-S-l>", ":bnext<CR>", { silent = true })
 
--- Window navigation
-kmp.set("n", "<c-h>", "<c-w><c-h>")
-kmp.set("n", "<c-j>", "<c-w><c-j>")
-kmp.set("n", "<c-k>", "<c-w><c-k>")
-kmp.set("n", "<c-l>", "<c-w><c-l>")
-
 -- Terminal functions
 kmp.set("t", "jk", "<c-\\><c-n>")
 
@@ -68,7 +62,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 kmp.set("n", "<M-j>", "<cmd>cnext<CR>", { silent = true })
 kmp.set("n", "<M-k>", "<cmd>cprev<CR>", { silent = true })
 
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
--- vim.g.loaded_netrwSettings = 1
--- vim.g.loaded_netrwFileHandlers = 1
+-- Inlay hints (only for servers that actually support them)
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client and client:supports_method("textDocument/inlayHint") then
+			vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+		end
+	end,
+})
