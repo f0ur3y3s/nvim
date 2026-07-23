@@ -74,8 +74,7 @@ return {
 		})
 
 		local function lsp_attached()
-			local get_clients = vim.lsp.get_clients or vim.lsp.get_active_clients
-			return next(get_clients({ bufnr = 0 })) ~= nil
+			return next(vim.lsp.get_clients({ bufnr = 0 })) ~= nil
 		end
 
 		-- CODE ACTIONS

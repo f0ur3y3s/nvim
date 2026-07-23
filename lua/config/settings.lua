@@ -13,6 +13,21 @@ vim.opt.signcolumn = "auto"
 vim.opt.foldcolumn = "0"
 vim.opt.foldmethod = "marker"
 
+vim.diagnostic.config({
+	virtual_text = { spacing = 2, prefix = "●" },
+	severity_sort = true,
+	underline = true,
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "E",
+			[vim.diagnostic.severity.WARN] = "W",
+			[vim.diagnostic.severity.INFO] = "I",
+			[vim.diagnostic.severity.HINT] = "H",
+		},
+	},
+	float = { border = "rounded", source = true },
+})
+
 local kmp = vim.keymap
 
 -- Basics
@@ -45,7 +60,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Hightlight selection on yank",
 	pattern = "*",
 	callback = function()
-		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 1000 })
+		vim.hl.on_yank({ higroup = "IncSearch", timeout = 1000 })
 	end,
 })
 

@@ -13,6 +13,7 @@ return {
 				python = { "ruff" },
 				c = { "clang-format" },
 				cpp = { "clang-format" },
+				markdown = { "mdformat" },
 			},
 			format_on_save = {
 				lsp_fallback = true,
