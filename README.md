@@ -174,6 +174,11 @@ Verify with `tree-sitter --version` (want 0.26.1+).
   during its own eager `setup()`, which was pulling in nvim-dap/dap-ui/
   mason-nvim-dap at every startup — disabled in `mason.lua` since nothing in
   `mason-tool-installer`'s `ensure_installed` list overlaps with DAP anyway.
+  The mason.nvim/mason-lspconfig/mason-tool-installer trio itself is also
+  deferred to `event = { "BufReadPre", "BufNewFile" }` (`cmd = "Mason"` too,
+  so `:Mason`/`<leader>om` still work standalone) — opening bare `nvim` to
+  the alpha dashboard fires neither event, so the whole Mason/LSP chain only
+  pays its cost once a real file is opened or created.
 - **persistence.nvim over auto-session/possession.nvim for sessions.** It's
   single-purpose (buffers/windows/tabs/cwd only, no session-name picker to
   manage) and needs no config beyond `opts = {}`. It won't restore toggleterm

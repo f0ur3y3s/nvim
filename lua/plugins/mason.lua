@@ -10,6 +10,12 @@
 return {
 	{
 		"mason-org/mason.nvim",
+		-- also gated on a buffer event (not just cmd) below: mason-lspconfig
+		-- lists this as a dependency, so it'd otherwise load whenever that
+		-- does anyway — this trigger just lets bare `:Mason` work too, e.g.
+		-- from the dashboard before any file is opened
+		cmd = "Mason",
+		event = { "BufReadPre", "BufNewFile" },
 		opts = {
 			ui = {
 				icons = {
@@ -22,6 +28,10 @@ return {
 	},
 	{
 		"mason-org/mason-lspconfig.nvim",
+		-- deferred past dashboard/startup: opening bare `nvim` (alpha) fires
+		-- neither event, so Mason/LSP setup only pays its cost once an
+		-- actual file is opened or created, same as it would attach anyway
+		event = { "BufReadPre", "BufNewFile" },
 		opts = {
 			-- automatic_enable defaults to true: installed servers are
 			-- enabled via vim.lsp.enable(), reading config from lsp/*.lua
@@ -34,6 +44,7 @@ return {
 	},
 	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = { "mason-org/mason.nvim" },
 		opts = {
 			-- non-LSP mason packages (formatters, linters); DAP adapters are
