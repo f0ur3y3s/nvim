@@ -161,6 +161,19 @@ Verify with `tree-sitter --version` (want 0.26.1+).
   `master` branch, removed by the `main`-branch rewrite this config uses.
   Fixed upstream in `v0.2.0`, which also dropped the `nvim-treesitter`
   dependency for previews entirely.
+- **Most plugins are lazy-loaded on `cmd`/`keys`/`ft`/`event`, not eager.**
+  telescope (`cmd = "Telescope"`), toggleterm (`cmd`/`keys` on `<c-\>`), and
+  the whole DAP stack (`keys` on the `<leader>d*` mappings) only load when
+  actually used. Two gotchas that came up getting this right: (1) a plain
+  `require(...)` call anywhere — even inside another plugin's `pcall`
+  probe — forces immediate load regardless of `keys`/`event`, so
+  `which_key.lua` defers its own `require("dap")`/`require("dapui")` calls
+  into functions instead of requiring them at the top; (2)
+  mason-tool-installer.nvim's `mason-nvim-dap` integration (on by default)
+  does exactly that kind of `pcall(require, "mason-nvim-dap...")` probe
+  during its own eager `setup()`, which was pulling in nvim-dap/dap-ui/
+  mason-nvim-dap at every startup — disabled in `mason.lua` since nothing in
+  `mason-tool-installer`'s `ensure_installed` list overlaps with DAP anyway.
 - **persistence.nvim over auto-session/possession.nvim for sessions.** It's
   single-purpose (buffers/windows/tabs/cwd only, no session-name picker to
   manage) and needs no config beyond `opts = {}`. It won't restore toggleterm

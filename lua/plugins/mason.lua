@@ -36,9 +36,16 @@ return {
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		dependencies = { "mason-org/mason.nvim" },
 		opts = {
-			-- non-LSP mason packages (formatters, linters, DAP adapters);
-			-- LSP servers are handled by mason-lspconfig's ensure_installed above
+			-- non-LSP mason packages (formatters, linters); DAP adapters are
+			-- handled entirely by mason-nvim-dap's own ensure_installed
+			-- (dap.lua) — no overlap with this list
 			ensure_installed = { "mdformat", "stylua", "clang-format" },
+			-- disabled: by default this pcall(require, "mason-nvim-dap...")
+			-- probes for cross-referencing, which forces nvim-dap/dap-ui/
+			-- mason-nvim-dap to load eagerly at startup (defeating their
+			-- `keys`-based lazy-loading in dap.lua) even though there's
+			-- nothing here for it to cross-reference
+			integrations = { ["mason-nvim-dap"] = false },
 		},
 	},
 }

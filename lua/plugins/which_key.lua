@@ -20,8 +20,15 @@ return {
 			},
 		})
 
-		local dap = require("dap")
-		local dapui = require("dapui")
+		-- deferred, not `require`d at the top: dap.lua lazy-loads nvim-dap /
+		-- nvim-dap-ui / mason-nvim-dap on these same <leader>d keys, and an
+		-- eager require() here would defeat that (load them at startup instead)
+		local function dap()
+			return require("dap")
+		end
+		local function dapui()
+			return require("dapui")
+		end
 
 		local minifiles_toggle = function(...)
 			if not MiniFiles.close() then
@@ -118,56 +125,56 @@ return {
 			{
 				"<leader>db",
 				function()
-					dap.toggle_breakpoint()
+					dap().toggle_breakpoint()
 				end,
 				desc = "Toggle Breakpoint",
 			},
 			{
 				"<leader>dc",
 				function()
-					dap.continue()
+					dap().continue()
 				end,
 				desc = "Continue/Start",
 			},
 			{
 				"<leader>di",
 				function()
-					dap.step_into()
+					dap().step_into()
 				end,
 				desc = "Step Into",
 			},
 			{
 				"<leader>do",
 				function()
-					dap.step_over()
+					dap().step_over()
 				end,
 				desc = "Step Over",
 			},
 			{
 				"<leader>dO",
 				function()
-					dap.step_out()
+					dap().step_out()
 				end,
 				desc = "Step Out",
 			},
 			{
 				"<leader>dr",
 				function()
-					dap.repl.open()
+					dap().repl.open()
 				end,
 				desc = "Open REPL",
 			},
 			{
 				"<leader>du",
 				function()
-					dapui.toggle()
+					dapui().toggle()
 				end,
 				desc = "Toggle DAP UI",
 			},
 			{
 				"<leader>dt",
 				function()
-					dap.terminate()
+					dap().terminate()
 				end,
 				desc = "Terminate Session",
 			},
