@@ -5,11 +5,35 @@ Personal Neovim config (targets Neovim 0.12+), managed with
 
 ## Table of contents
 
+- [Key bindings](#key-bindings)
 - [Structure](#structure)
 - [Prerequisites](#prerequisites)
 - [Plugins](#plugins)
 - [Why some of the less obvious choices](#why-some-of-the-less-obvious-choices)
-- [Key bindings](#key-bindings)
+
+## Key bindings
+
+Leader is `<Space>`. Full list lives in `lua/plugins/which_key.lua`;
+highlights:
+
+| Key | Action |
+|---|---|
+| `<leader>ff` / `fg` / `fb` / `fz` | Telescope: files / grep / buffers / fuzzy find in buffer |
+| `<leader>e` | Toggle mini.files explorer |
+| `<leader>ol` / `om` | Open Lazy / Mason |
+| `gd` / `gD` / `gr` / `gi` / `gt` / `gh` | LSP: definition / declaration / references / implementation / type def / hover |
+| `<leader>.a` / `.r` / `.s` / `.f` / `.h` | LSP: code action / rename / signature help / format / toggle inlay hints |
+| `<leader>db` / `dc` / `di` / `do` / `dO` / `dr` / `du` / `dt` | DAP: breakpoint / continue / step into / step over / step out / REPL / toggle UI / terminate |
+| `<c-\>` / `<leader>tt` | Toggle integrated terminal |
+| `<leader>tw` | Trim trailing whitespace (shares the `t` prefix with `tt` by coincidence, not a group) |
+| `<leader>ss` / `sl` / `sd` | Restore session (cwd) / restore last session / stop autosaving this session |
+| `<leader>wv` / `wh` | Vertical / horizontal split |
+| `<leader>w...` | Window management (resize, close) |
+| `<leader>b...` | Buffer management (delete, next/prev, delete all/other) |
+| `<C-h/j/k/l>` | Move between windows |
+| `<S-j>` / `<S-k>` | Move line/selection down/up |
+| `jk` | Escape (insert and terminal mode) |
+
 
 ## Structure
 
@@ -123,7 +147,7 @@ Verify with `tree-sitter --version` (want 0.26.1+).
   with the session (codelldb for C/C++/Rust, debugpy for Python)
 - **toggleterm.nvim** — integrated terminal (`<C-\>` or `<leader>tt`)
 - **persistence.nvim** — auto-saves/restores buffers, window layout, and cwd
-  per-directory (`<leader>qs`/`ql`/`qd`)
+  per-directory (`<leader>ss`/`sl`/`sd`)
 - **render-markdown.nvim** — rendered markdown (headers, tables, code fences)
 - **nvim-treesitter** (`main` branch) — highlighting, started per-buffer
 - **nightfox.nvim** — colorscheme (carbonfox)
@@ -195,24 +219,3 @@ Verify with `tree-sitter --version` (want 0.26.1+).
   (`~/AppData/Local/nvim-data/sessions/` on Windows), keyed by project
   directory + git branch.
 
-## Key bindings
-
-Leader is `<Space>`. Full list lives in `lua/plugins/which_key.lua`;
-highlights:
-
-| Key | Action |
-|---|---|
-| `<leader>ff` / `fg` / `fb` / `fz` | Telescope: files / grep / buffers / fuzzy find in buffer |
-| `<leader>e` | Toggle mini.files explorer |
-| `<leader>ol` / `om` | Open Lazy / Mason |
-| `gd` / `gD` / `gr` / `gi` / `gt` / `gh` | LSP: definition / declaration / references / implementation / type def / hover |
-| `<leader>.a` / `.r` / `.s` / `.f` / `.h` | LSP: code action / rename / signature help / format / toggle inlay hints |
-| `<leader>db` / `dc` / `di` / `do` / `dO` / `dr` / `du` / `dt` | DAP: breakpoint / continue / step into / step over / step out / REPL / toggle UI / terminate |
-| `<c-\>` / `<leader>tt` | Toggle integrated terminal |
-| `<leader>tw` | Trim trailing whitespace (shares the `t` prefix with `tt` by coincidence, not a group) |
-| `<leader>qs` / `ql` / `qd` | Restore session (cwd) / restore last session / stop autosaving this session |
-| `<leader>w...` | Window management (split, resize, close) |
-| `<leader>b...` | Buffer management (delete, next/prev, delete all/other) |
-| `<C-h/j/k/l>` | Move between windows |
-| `<S-j>` / `<S-k>` | Move line/selection down/up |
-| `jk` | Escape (insert and terminal mode) |

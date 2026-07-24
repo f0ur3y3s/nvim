@@ -10,13 +10,24 @@ return {
 				{ "<leader>f", group = "Find/Files" },
 				{ "<leader>b", group = "Buffer" },
 				{ "<leader>w", group = "Window" },
-				{ "<leader>.", group = "QuickFix Action" },
-				{ "<leader>o", group = "Open" },
+				-- was "QuickFix Action" — misnomer, these are LSP actions
+				-- (rename/format/code action/etc), nothing to do with vim's
+				-- quickfix list
+				{ "<leader>.", group = "Code Action" },
+				-- "open" isn't in which-key's built-in icon-pattern list, so it
+				-- needs an explicit icon (unlike f/b/w/d/s above, which match
+				-- built-in patterns and get one automatically)
+				{ "<leader>o", group = "Open", icon = "󰝰 " },
 				{ "<leader>d", group = "Debug" },
-				{ "<leader>q", group = "Session" },
-				-- no "<leader>t" group label: <leader>tw (trim whitespace) and
-				-- <leader>tt (toggle terminal) share the prefix but aren't
-				-- related, so a "Terminal" label would misdescribe tw
+				-- moved off "q" — that letter doesn't appear in "Session" at
+				-- all (it was borrowed from LazyVim's convention); "s" both
+				-- fits the group name and was unclaimed
+				{ "<leader>s", group = "Session" },
+				-- tw (trim whitespace) and tt (toggle terminal) aren't a real
+				-- group — they just share the `t` prefix (see mini config
+				-- below) — but a plain "Terminal" label would misdescribe tw,
+				-- so the name stays honest about covering both
+				{ "<leader>t", group = "Terminal/Trim", icon = " " },
 			},
 		})
 
@@ -69,21 +80,21 @@ return {
 		-- SESSION (persistence.nvim)
 		wk.add({
 			{
-				"<leader>qs",
+				"<leader>ss",
 				function()
 					require("persistence").load()
 				end,
 				desc = "Restore Session (cwd)",
 			},
 			{
-				"<leader>ql",
+				"<leader>sl",
 				function()
 					require("persistence").load({ last = true })
 				end,
 				desc = "Restore Last Session",
 			},
 			{
-				"<leader>qd",
+				"<leader>sd",
 				function()
 					require("persistence").stop()
 				end,
@@ -94,12 +105,13 @@ return {
 		-- WINDOW MANAGEMENT
 		wk.add({
 			{ "<leader>wv", "<cmd>vsplit<cr>", desc = "Vertical Split" },
-			{ "<leader>ws", "<cmd>split<cr>", desc = "Horizontal Split" },
+			-- was "ws" (read as generic "window split", asymmetric with wv's
+			-- explicit "vertical") — "wh" mirrors wv properly and was free:
+			-- the old wh/wj/wk/wl window-nav mappings below are disabled
+			-- since <C-h/j/k/l> (settings.lua) already cover that
+			{ "<leader>wh", "<cmd>split<cr>", desc = "Horizontal Split" },
 			{ "<leader>wc", "<cmd>close<cr>", desc = "Close Window" },
 			-- { "<leader>wo", "<cmd>only<cr>", desc = "Only Window" },
-			-- hjkl variants below left disabled: <C-h/j/k/l> (settings.lua)
-			-- already cover window nav without the <leader>w prefix
-			-- { "<leader>wh", "<C-w>h", desc = "Move to Left Window" },
 			-- { "<leader>wj", "<C-w>j", desc = "Move to Bottom Window" },
 			-- { "<leader>wk", "<C-w>k", desc = "Move to Top Window" },
 			-- { "<leader>wl", "<C-w>l", desc = "Move to Right Window" },

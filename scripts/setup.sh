@@ -58,7 +58,15 @@ else
 fi
 
 # --- Neovim bootstrap: plugins, parsers, Mason tools -------------------
+# mason-lspconfig/mason-tool-installer/mason-nvim-dap are lazy-loaded (on a
+# buffer event or a <leader>d* keypress, see mason.lua/dap.lua) — a bare
+# `Lazy sync` downloads them but never runs their setup(), so their
+# ensure_installed lists (LSP servers, formatters, DAP adapters) wouldn't
+# get installed. Force-load them once, headlessly, right after sync.
 log "Running Lazy sync (installs plugins, triggers parser/tool installs)"
-nvim --headless "+Lazy! sync" +qa
+nvim --headless \
+	"+Lazy! sync" \
+	"+lua require('lazy.core.loader').load({ 'mason-lspconfig.nvim', 'mason-tool-installer.nvim', 'mason-nvim-dap.nvim' }, { command = 'setup.sh' })" \
+	+qa
 
 log "Done. Restart your terminal so PATH updates take effect everywhere."
