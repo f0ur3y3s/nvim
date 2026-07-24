@@ -13,6 +13,7 @@ return {
 				{ "<leader>.", group = "QuickFix Action" },
 				{ "<leader>o", group = "Open" },
 				{ "<leader>d", group = "Debug" },
+				{ "<leader>q", group = "Session" },
 				-- no "<leader>t" group label: <leader>tw (trim whitespace) and
 				-- <leader>tt (toggle terminal) share the prefix but aren't
 				-- related, so a "Terminal" label would misdescribe tw
@@ -56,6 +57,31 @@ return {
 		wk.add({
 			{ "<leader>ol", "<cmd>Lazy<cr>", desc = "Open Lazy" },
 			{ "<leader>om", "<cmd>Mason<cr>", desc = "Open Mason" },
+		})
+
+		-- SESSION (persistence.nvim)
+		wk.add({
+			{
+				"<leader>qs",
+				function()
+					require("persistence").load()
+				end,
+				desc = "Restore Session (cwd)",
+			},
+			{
+				"<leader>ql",
+				function()
+					require("persistence").load({ last = true })
+				end,
+				desc = "Restore Last Session",
+			},
+			{
+				"<leader>qd",
+				function()
+					require("persistence").stop()
+				end,
+				desc = "Don't Save Session on Exit",
+			},
 		})
 
 		-- WINDOW MANAGEMENT

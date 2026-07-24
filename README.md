@@ -3,6 +3,14 @@
 Personal Neovim config (targets Neovim 0.12+), managed with
 [lazy.nvim](https://github.com/folke/lazy.nvim).
 
+## Table of contents
+
+- [Structure](#structure)
+- [Prerequisites](#prerequisites)
+- [Plugins](#plugins)
+- [Why some of the less obvious choices](#why-some-of-the-less-obvious-choices)
+- [Key bindings](#key-bindings)
+
 ## Structure
 
 ```
@@ -97,6 +105,8 @@ Verify with `tree-sitter --version` (want 0.26.1+).
 - **nvim-dap** / **nvim-dap-ui** (+ nvim-nio) — debugging, UI auto-opens/closes
   with the session (codelldb for C/C++/Rust, debugpy for Python)
 - **toggleterm.nvim** — integrated terminal (`<C-\>` or `<leader>tt`)
+- **persistence.nvim** — auto-saves/restores buffers, window layout, and cwd
+  per-directory (`<leader>qs`/`ql`/`qd`)
 - **render-markdown.nvim** — rendered markdown (headers, tables, code fences)
 - **nvim-treesitter** (`main` branch) — highlighting, started per-buffer
 - **nightfox.nvim** — colorscheme (carbonfox)
@@ -134,6 +144,13 @@ Verify with `tree-sitter --version` (want 0.26.1+).
   `master` branch, removed by the `main`-branch rewrite this config uses.
   Fixed upstream in `v0.2.0`, which also dropped the `nvim-treesitter`
   dependency for previews entirely.
+- **persistence.nvim over auto-session/possession.nvim for sessions.** It's
+  single-purpose (buffers/windows/tabs/cwd only, no session-name picker to
+  manage) and needs no config beyond `opts = {}`. It won't restore toggleterm
+  terminal buffers or other plugin UI state — just editor layout. Session
+  files live under `stdpath("state")/sessions/`
+  (`~/AppData/Local/nvim-data/sessions/` on Windows), keyed by project
+  directory + git branch.
 
 ## Key bindings
 
@@ -150,6 +167,7 @@ highlights:
 | `<leader>db` / `dc` / `di` / `do` / `dO` / `dr` / `du` / `dt` | DAP: breakpoint / continue / step into / step over / step out / REPL / toggle UI / terminate |
 | `<c-\>` / `<leader>tt` | Toggle integrated terminal |
 | `<leader>tw` | Trim trailing whitespace (shares the `t` prefix with `tt` by coincidence, not a group) |
+| `<leader>qs` / `ql` / `qd` | Restore session (cwd) / restore last session / stop autosaving this session |
 | `<leader>w...` | Window management (split, resize, close) |
 | `<leader>b...` | Buffer management (delete, next/prev, delete all/other) |
 | `<C-h/j/k/l>` | Move between windows |
