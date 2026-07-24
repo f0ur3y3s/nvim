@@ -19,6 +19,8 @@ lua/config/lazy.lua       bootstraps lazy.nvim, imports lua/plugins/*
 lua/config/settings.lua   options, diagnostics config, core keymaps, LspAttach autocmds
 lua/plugins/*.lua         one lazy.nvim plugin spec per file (auto-imported)
 lsp/*.lua                 native vim.lsp server configs (clangd, lua_ls, ruff)
+scripts/setup.sh          Linux prerequisite + bootstrap script
+scripts/setup.ps1         Windows prerequisite + bootstrap script
 ```
 
 `lsp/*.lua` must live at the top-level `lsp/` directory, **not**
@@ -35,6 +37,21 @@ Beyond Neovim 0.12+ itself, `nvim-treesitter` (main branch) compiles parsers
 from source on every startup via `tree-sitter build`, which needs two things
 on `PATH`: `tree-sitter-cli` (0.26.1+) and a C compiler. Neither ships with
 Neovim.
+
+`scripts/setup.sh` (Linux) and `scripts/setup.ps1` (Windows) automate
+everything below, then run `Lazy sync` to pull plugins and trigger
+parser/Mason installs. Idempotent — safe to re-run.
+
+```sh
+# Linux
+./scripts/setup.sh
+
+# Windows (PowerShell)
+.\scripts\setup.ps1
+```
+
+Manual steps, if you'd rather not run the script or want to know what it
+does:
 
 **`tree-sitter-cli` — install via `cargo`, not `npm`** (the nvim-treesitter
 README is explicit about this). If you don't already have Rust:
