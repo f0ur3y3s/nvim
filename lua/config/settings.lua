@@ -8,6 +8,20 @@ vim.opt.expandtab = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
+-- On WSL, setting 'clipboard' triggers the stock clipboard provider's
+-- executable() probing (win32yank/xclip/xsel/wl-copy/tmux), and each check
+-- has to stat every directory in the Windows PATH WSL inherits over the
+-- DrvFs bridge — measured at ~750ms of startup time. OSC52 is a built-in
+-- Neovim provider that skips all of that: pure terminal escape codes, no
+-- subprocess, no PATH scan. Windows Terminal supports OSC52 copy/paste.
+if vim.fn.has("wsl") == 1 then
+	local osc52 = require("vim.ui.clipboard.osc52")
+	vim.g.clipboard = {
+		name = "OSC 52",
+		copy = { ["+"] = osc52.copy("+"), ["*"] = osc52.copy("*") },
+		paste = { ["+"] = osc52.paste("+"), ["*"] = osc52.paste("*") },
+	}
+end
 vim.opt.clipboard = "unnamedplus"
 vim.opt.signcolumn = "auto"
 vim.opt.foldcolumn = "0"

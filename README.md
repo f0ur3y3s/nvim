@@ -179,6 +179,14 @@ Verify with `tree-sitter --version` (want 0.26.1+).
   so `:Mason`/`<leader>om` still work standalone) — opening bare `nvim` to
   the alpha dashboard fires neither event, so the whole Mason/LSP chain only
   pays its cost once a real file is opened or created.
+- **OSC52 clipboard on WSL, not the stock provider.** Setting `'clipboard'`
+  normally triggers Neovim's autoload provider script, which probes for
+  win32yank/xclip/xsel/wl-copy/tmux via `executable()`. On WSL that's ~750ms
+  of startup time, because each check stats the whole Windows `PATH` WSL
+  inherits over the DrvFs bridge. `settings.lua` detects WSL (`has('wsl')`)
+  and sets `vim.g.clipboard` to Neovim's built-in OSC52 provider instead —
+  no subprocess, no PATH scan. Requires a terminal that supports OSC52
+  (Windows Terminal does).
 - **persistence.nvim over auto-session/possession.nvim for sessions.** It's
   single-purpose (buffers/windows/tabs/cwd only, no session-name picker to
   manage) and needs no config beyond `opts = {}`. It won't restore toggleterm
